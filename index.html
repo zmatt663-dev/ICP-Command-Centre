@@ -60,6 +60,20 @@
   .checker-grid select{font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none; min-width:170px; cursor:pointer;}
   .checker-grid select:focus{border-color:var(--lime); background:rgba(255,255,255,0.13);}
   .checker-grid select option{color:#111;}
+  .ms{position:relative; min-width:200px;}
+  .ms-toggle{width:100%; text-align:left; display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; cursor:pointer;}
+  .ms-toggle:hover{background:rgba(255,255,255,0.13);}
+  .ms-toggle .ms-label{opacity:.92;}
+  .ms-toggle .ms-caret{opacity:.6; font-size:10px;}
+  .ms-panel{display:none; position:absolute; top:calc(100% + 6px); left:0; z-index:20; width:260px; max-height:260px; overflow-y:auto; background:var(--forest-2); border:1px solid rgba(255,255,255,0.16); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.35); padding:6px;}
+  .ms-panel.open{display:block;}
+  .ms-option{display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer;}
+  .ms-option:hover{background:rgba(255,255,255,0.08);}
+  .ms-option input{accent-color:var(--lime); cursor:pointer;}
+  .ms-empty{padding:10px 8px; font-size:12px; color:#9FC0BA;}
+  .ms-chips{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; width:100%;}
+  .ms-chip{display:inline-flex; align-items:center; gap:5px; background:rgba(179,250,104,0.14); color:var(--lime); border:1px solid rgba(179,250,104,0.3); border-radius:20px; padding:3px 6px 3px 10px; font-size:11px; font-weight:600;}
+  .ms-chip-x{background:none; border:none; color:var(--lime); cursor:pointer; font-size:13px; line-height:1; padding:0 3px;}
   .go-btn{background:var(--lime); color:var(--forest); border:none; font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Inter',sans-serif;}
   .go-btn:hover{background:var(--lime-dim);}
   .check-results{margin-top:16px; position:relative;}
@@ -252,12 +266,67 @@ function showToast(msg){
   window.__toastT = setTimeout(()=> t.classList.remove('show'), 3200);
 }
 
-function renderIndustryDatalist(){
+const msState = { industry: new Set(), feature: new Set() };
+
+function getIndustryOptions(){
   const cat = DATA[state.category] || [];
   const names = new Set();
   cat.forEach(v => v.tags.forEach(t => names.add(t.name)));
-  let dl = document.getElementById('industryList');
-  if(dl) dl.innerHTML = [...names].sort().map(n=>`<option value="${n.replace(/"/g,'')}">`).join('');
+  return [...names].sort();
+}
+function getFeatureOptionLabels(){
+  const list = FEATURE_LISTS[state.category] || [];
+  return list.map(f => f.label);
+}
+
+function toggleMsPanel(kind){
+  const panel = document.getElementById(`ms-${kind}-panel`);
+  const isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.ms-panel.open').forEach(p => p.classList.remove('open'));
+  if(!isOpen) panel.classList.add('open');
+}
+document.addEventListener('click', ()=> {
+  document.querySelectorAll('.ms-panel.open').forEach(p => p.classList.remove('open'));
+});
+
+function renderMultiSelect(kind){
+  const options = kind === 'industry' ? getIndustryOptions() : getFeatureOptionLabels();
+  const selected = msState[kind];
+  const panel = document.getElementById(`ms-${kind}-panel`);
+  if(!panel) return;
+  panel.innerHTML = options.length ? options.map(opt => {
+    const safe = opt.replace(/"/g,'&quot;');
+    return `<label class="ms-option"><input type="checkbox" value="${safe}" ${selected.has(opt)?'checked':''} data-kind="${kind}"><span>${opt}</span></label>`;
+  }).join('') : `<div class="ms-empty">No ${kind==='industry'?'industries':'standard features'} for this category</div>`;
+  panel.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', (e)=>{
+      const val = e.target.value;
+      if(e.target.checked) msState[kind].add(val); else msState[kind].delete(val);
+      renderChips(kind);
+    });
+  });
+  renderChips(kind);
+}
+
+function renderChips(kind){
+  const selected = [...msState[kind]];
+  const chipsEl = document.getElementById(`ms-${kind}-chips`);
+  const toggleBtn = document.getElementById(`ms-${kind}-toggle`);
+  if(toggleBtn) toggleBtn.querySelector('.ms-label').textContent = selected.length
+    ? `${selected.length} ${kind === 'industry' ? 'industr' + (selected.length>1?'ies':'y') : 'feature'+(selected.length>1?'s':'')} selected`
+    : (kind === 'industry' ? 'Select industries' : 'Select features');
+  if(!chipsEl) return;
+  chipsEl.innerHTML = selected.map(v => {
+    const safe = v.replace(/"/g,'&quot;');
+    return `<span class="ms-chip">${v}<button type="button" class="ms-chip-x" data-kind="${kind}" data-val="${safe}">×</button></span>`;
+  }).join('');
+  chipsEl.querySelectorAll('.ms-chip-x').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const k = e.target.getAttribute('data-kind'), val = e.target.getAttribute('data-val');
+      msState[k].delete(val);
+      renderMultiSelect(k);
+    });
+  });
 }
 
 function renderGrid(){
@@ -340,17 +409,39 @@ function featureMatches(v, featureLabel){
   return { ok, note: ok ? null : `"${featureLabel}" not mentioned in listing — verify manually` };
 }
 
+function industriesMatch(v, selectedIndustries){
+  if(selectedIndustries.length === 0) return { ok: true, fails: [] };
+  const fails = [];
+  for(const ind of selectedIndustries){
+    const tag = v.tags.find(t => t.name === ind);
+    if(!tag || tag.status !== 'accept') fails.push(ind);
+  }
+  return { ok: fails.length === 0, fails };
+}
+
+function featuresMatch(v, selectedFeatures){
+  if(selectedFeatures.length === 0) return { ok: true, fails: [] };
+  const fails = [];
+  for(const feat of selectedFeatures){
+    const { ok } = featureMatches(v, feat);
+    if(!ok) fails.push(feat);
+  }
+  return { ok: fails.length === 0, fails };
+}
+
 function runCheck(){
-  const industry = document.getElementById('chkIndustry').value.trim().toLowerCase();
+  const selectedIndustries = [...msState.industry];
+  const selectedFeatures = [...msState.feature];
   const empInput = document.getElementById('chkEmp').value.trim();
   const empNum = empInput ? parseInt(empInput, 10) : null;
   const geoCountry = document.getElementById('chkGeo').value;
-  const featureLabel = document.getElementById('chkFeature').value;
   const box = document.getElementById('chkResults');
-  if(!industry){ box.innerHTML = `<div class="hint">Enter an industry to check against every vendor in ${state.category}.</div>`; return; }
+  if(selectedIndustries.length === 0){ box.innerHTML = `<div class="hint">Select at least one industry to check against every vendor in ${state.category}.</div>`; return; }
   const cat = (DATA[state.category] || []).filter(v => v.status !== 'Inactive');
   const rows = cat.map(v=>{
-    const match = v.tags.find(t => t.name.toLowerCase().includes(industry) || industry.includes(t.name.toLowerCase()));
+    const { ok: indOk, fails: indFails } = industriesMatch(v, selectedIndustries);
+    const { ok: featOk, fails: featFails } = featuresMatch(v, selectedFeatures);
+
     const locKey = Object.keys(v.details).find(k => /geograph|location/i.test(k));
     const locVal = locKey ? v.details[locKey] : '';
     const { ok: geoOk, note: geoNote } = geoMatches(locVal, geoCountry);
@@ -363,22 +454,25 @@ function runCheck(){
       else if(empNum < empFloor){ empOk = false; empNote = `below vendor's minimum (${v.details[empKey]})`; }
     }
 
-    const { ok: featOk, note: featNote } = featureMatches(v, featureLabel);
-
     let fit = 'no', label = 'No match found';
-    if(match){
-      if(match.status === 'accept'){
-        const hardFails = !geoOk || !empOk || !featOk;
-        const issues = [geoNote, empNote, featNote].filter(Boolean);
-        if(hardFails){ fit = 'no'; label = issues.join('; '); }
-        else if(issues.length){ fit = 'cond'; label = issues.join('; '); }
-        else { fit = 'yes'; label = 'Fits ICP'; }
-      }
-      else if(match.status === 'reject'){ fit='no'; label='Excluded industry'; }
-      else { fit='cond'; label = match.note || 'Conditional — check notes'; }
+    if(!indOk){
+      fit = 'no';
+      label = `Doesn't accept: ${indFails.join(', ')}`;
+    } else {
+      const hardFails = !geoOk || !empOk || !featOk;
+      const featIssue = featFails.length ? `Doesn't match feature: ${featFails.join(', ')}` : null;
+      const issues = [geoNote, empNote, featIssue].filter(Boolean);
+      if(hardFails){ fit = 'no'; label = issues.join('; '); }
+      else if(issues.length){ fit = 'cond'; label = issues.join('; '); }
+      else { fit = 'yes'; label = 'Fits ICP'; }
     }
     return {v, fit, label};
   }).sort((a,b)=>{ const order={yes:0,cond:1,no:2}; return order[a.fit]-order[b.fit]; });
+
+  if(!rows.some(r => r.fit === 'yes')){
+    box.innerHTML = `<div class="hint">No vendor matches all of these.</div>`;
+    return;
+  }
   box.innerHTML = rows.map(r=>`
     <div class="result-row">
       <span class="badge-fit fit-${r.fit==='yes'?'yes':r.fit==='cond'?'cond':'no'}">${r.fit==='yes'?'Fit':r.fit==='cond'?'Check':'No fit'}</span>
@@ -390,33 +484,40 @@ function runCheck(){
 function countryOptions(){
   return '<option value="">Any geography</option>' + COUNTRIES.map(c=>`<option value="${c}">${c}</option>`).join('');
 }
-function featureOptions(){
-  const list = FEATURE_LISTS[state.category] || [];
-  if(!list.length) return '<option value="">No standard feature list for this category</option>';
-  return '<option value="">Any feature</option>' + list.map(f=>`<option value="${f.label.replace(/"/g,'')}">${f.label}</option>`).join('');
-}
 
 function renderContent(){
   document.getElementById('contentArea').innerHTML = `
     <div class="checker">
       <div class="checker-head"><span class="tag">Quick check</span></div>
       <h2>Does this lead fit anyone's ICP?</h2>
-      <p class="sub">Type an industry, pick employee count, geography and a feature an SDR is qualifying against. Scans every active vendor in the current category instantly.</p>
+      <p class="sub">Pick one or more industries and features, employee count and geography an SDR is qualifying against. Selecting multiple industries or features finds vendors that accept ALL of them, not just any one.</p>
       <div class="checker-grid">
-        <input id="chkIndustry" type="text" placeholder="Industry, e.g. Construction, Ecommerce…" list="industryList">
-        <datalist id="industryList"></datalist>
+        <div class="ms" id="ms-industry">
+          <button type="button" class="ms-toggle" id="ms-industry-toggle"><span class="ms-label">Select industries</span><span class="ms-caret">▾</span></button>
+          <div class="ms-panel" id="ms-industry-panel"></div>
+        </div>
+        <div class="ms" id="ms-feature">
+          <button type="button" class="ms-toggle" id="ms-feature-toggle"><span class="ms-label">Select features</span><span class="ms-caret">▾</span></button>
+          <div class="ms-panel" id="ms-feature-panel"></div>
+        </div>
         <input id="chkEmp" type="number" placeholder="Employee count, e.g. 150" min="0">
         <select id="chkGeo">${countryOptions()}</select>
-        <select id="chkFeature">${featureOptions()}</select>
         <button class="go-btn" id="chkBtn">Check fit</button>
       </div>
+      <div class="ms-chips" id="ms-industry-chips"></div>
+      <div class="ms-chips" id="ms-feature-chips"></div>
       <div class="check-results" id="chkResults"></div>
     </div>
     <div class="section-title"><h2 id="gridTitle">Vendors</h2><span class="count" id="gridCount"></span></div>
     <div class="vgrid" id="vgrid"></div>
   `;
   document.getElementById('chkBtn').addEventListener('click', runCheck);
-  document.getElementById('chkIndustry').addEventListener('keydown', (e)=>{ if(e.key==='Enter') runCheck(); });
+  msState.industry = new Set();
+  msState.feature = new Set();
+  renderMultiSelect('industry');
+  renderMultiSelect('feature');
+  document.getElementById('ms-industry-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('industry'); });
+  document.getElementById('ms-feature-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('feature'); });
 }
 
 function render(){
@@ -425,7 +526,6 @@ function render(){
   document.getElementById('catDesc').textContent = `Vendor ICPs for ${state.category} — live from your Google Sheet.`;
   renderSidebar();
   renderContent();
-  renderIndustryDatalist();
   renderGrid();
 }
 
