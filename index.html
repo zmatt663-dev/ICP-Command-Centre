@@ -57,6 +57,9 @@
   .checker-grid input{font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none; min-width:170px;}
   .checker-grid input::placeholder{color:#9FC0BA;}
   .checker-grid input:focus{border-color:var(--lime); background:rgba(255,255,255,0.13);}
+  .checker-grid select{font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none; min-width:170px; cursor:pointer;}
+  .checker-grid select:focus{border-color:var(--lime); background:rgba(255,255,255,0.13);}
+  .checker-grid select option{color:#111;}
   .go-btn{background:var(--lime); color:var(--forest); border:none; font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Inter',sans-serif;}
   .go-btn:hover{background:var(--lime-dim);}
   .check-results{margin-top:16px; position:relative;}
@@ -152,6 +155,10 @@
 const SPREADSHEET_ID = '1Ck-uQW0Ix6XHZ3sTPT8uKm2QG1pkecTxT33HY1KXJig';
 const API_KEY = 'AIzaSyB92m87JF8T_Wd-lGNF8RhULp_1Kz2HvlY';
 const CATEGORIES = ['ERP','Medical','LMS','Construction Management','CRM','Legal Practice Management','CMMS','Environmental Health & Safety','Point of Sale','HR','Project Management','Field Service Management','Property Management'];
+const COUNTRIES = ["Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia, Plurinational State of", "Bonaire, Sint Eustatius and Saba", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Cocos (Keeling) Islands", "Colombia", "Comoros", "Congo", "Congo, The Democratic Republic of the", "Cook Islands", "Costa Rica", "Croatia", "Cuba", "Cura\u00e7ao", "Cyprus", "Czechia", "C\u00f4te d'Ivoire", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Falkland Islands (Malvinas)", "Faroe Islands", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern Territories", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Holy See (Vatican City State)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran, Islamic Republic of", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, Democratic People's Republic of", "Korea, Republic of", "Kuwait", "Kyrgyzstan", "Lao People's Democratic Republic", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia, Federated States of", "Moldova, Republic of", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "North Macedonia", "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Palestine, State of", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russian Federation", "Rwanda", "R\u00e9union", "Saint Barth\u00e9lemy", "Saint Helena, Ascension and Tristan da Cunha", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin (French part)", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Sint Maarten (Dutch part)", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Svalbard and Jan Mayen", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan, Province of China", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "T\u00fcrkiye", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "United States Minor Outlying Islands", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela, Bolivarian Republic of", "Viet Nam", "Virgin Islands, British", "Virgin Islands, U.S.", "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe", "\u00c5land Islands"];
+const GEO_ALIASES = {"United States": ["USA", "US", "U.S.", "U.S.A.", "America", "US only", "United States of America"], "United Kingdom": ["UK", "U.K.", "Britain", "England", "Great Britain"], "United Arab Emirates": ["UAE", "U.A.E."], "Korea, Republic of": ["South Korea", "Korea"], "Russian Federation": ["Russia"], "Viet Nam": ["Vietnam"], "Czechia": ["Czech Republic"], "Iran, Islamic Republic of": ["Iran"], "Venezuela, Bolivarian Republic of": ["Venezuela"], "Bolivia, Plurinational State of": ["Bolivia"], "Tanzania, United Republic of": ["Tanzania"], "Netherlands": ["Holland"], "Lao People's Democratic Republic": ["Laos"], "Syrian Arab Republic": ["Syria"], "Moldova, Republic of": ["Moldova"], "Micronesia, Federated States of": ["Micronesia"], "Congo, The Democratic Republic of the": ["DR Congo", "DRC"]};
+const FEATURE_LISTS = {"Medical": [{"label": "EMR", "synonyms": ["emr", "electronic medical record"]}, {"label": "EHR", "synonyms": ["ehr", "electronic health record"]}, {"label": "Practice Management (PM)", "synonyms": ["practice management", "pm "]}, {"label": "Revenue Cycle Management (RCM)", "synonyms": ["rcm", "revenue cycle"]}, {"label": "Telehealth", "synonyms": ["telehealth"]}, {"label": "Patient Scheduling", "synonyms": ["patient scheduling"]}, {"label": "Patient Portal", "synonyms": ["patient portal"]}, {"label": "Medical Billing", "synonyms": ["medical billing"]}], "CRM": [{"label": "Sales Pipeline Management", "synonyms": ["sales pipeline management"]}, {"label": "Marketing Automation", "synonyms": ["marketing automation"]}, {"label": "Lead Scoring", "synonyms": ["lead scoring"]}, {"label": "Email Marketing", "synonyms": ["email marketing"]}, {"label": "Contact Management", "synonyms": ["contact management"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}, {"label": "Workflow Automation", "synonyms": ["workflow automation"]}], "ERP": [{"label": "Financial Management", "synonyms": ["financial management"]}, {"label": "Inventory Management", "synonyms": ["inventory management"]}, {"label": "Supply Chain Management", "synonyms": ["supply chain management"]}, {"label": "Manufacturing", "synonyms": ["manufacturing"]}, {"label": "Procurement", "synonyms": ["procurement"]}, {"label": "Order Management", "synonyms": ["order management"]}], "LMS": [{"label": "Course Authoring", "synonyms": ["course authoring"]}, {"label": "Certification Tracking", "synonyms": ["certification tracking"]}, {"label": "Compliance Training", "synonyms": ["compliance training"]}, {"label": "Gamification", "synonyms": ["gamification"]}, {"label": "Mobile Learning", "synonyms": ["mobile learning"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}], "HR": [{"label": "HRIS", "synonyms": ["hris", "human resource information system"]}, {"label": "HCM", "synonyms": ["hcm", "human capital management"]}, {"label": "Payroll", "synonyms": ["payroll"]}, {"label": "Benefits Administration", "synonyms": ["benefits administration"]}, {"label": "Time & Attendance", "synonyms": ["time & attendance"]}, {"label": "Applicant Tracking (ATS)", "synonyms": ["ats", "applicant tracking"]}, {"label": "Performance Management", "synonyms": ["performance management"]}, {"label": "Onboarding", "synonyms": ["onboarding"]}], "CMMS": [{"label": "Preventive Maintenance", "synonyms": ["preventive maintenance"]}, {"label": "Work Order Management", "synonyms": ["work order management"]}, {"label": "Asset Tracking", "synonyms": ["asset tracking"]}, {"label": "Inventory/Parts Management", "synonyms": ["inventory/parts management"]}, {"label": "Inspection Management", "synonyms": ["inspection management"]}], "Legal Practice Management": [{"label": "Case Management", "synonyms": ["case management"]}, {"label": "Time & Billing", "synonyms": ["time & billing"]}, {"label": "Document Management", "synonyms": ["document management"]}, {"label": "Client Intake", "synonyms": ["client intake"]}, {"label": "Trust Accounting", "synonyms": ["trust accounting"]}], "Point of Sale": [{"label": "Inventory Management", "synonyms": ["inventory management"]}, {"label": "Payment Processing", "synonyms": ["payment processing"]}, {"label": "Customer Loyalty", "synonyms": ["customer loyalty"]}, {"label": "Multi-location Support", "synonyms": ["multi-location support"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}], "Project Management": [{"label": "Task Management", "synonyms": ["task management"]}, {"label": "Gantt Charts", "synonyms": ["gantt charts"]}, {"label": "Resource Management", "synonyms": ["resource management"]}, {"label": "Time Tracking", "synonyms": ["time tracking"]}, {"label": "Team Collaboration", "synonyms": ["team collaboration"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}], "Field Service Management": [{"label": "Scheduling & Dispatch", "synonyms": ["scheduling & dispatch"]}, {"label": "Work Order Management", "synonyms": ["work order management"]}, {"label": "GPS Tracking", "synonyms": ["gps tracking"]}, {"label": "Inventory Management", "synonyms": ["inventory management"]}, {"label": "Invoicing", "synonyms": ["invoicing"]}], "Property Management": [{"label": "Tenant & Lease Management", "synonyms": ["tenant & lease management"]}, {"label": "Maintenance Requests", "synonyms": ["maintenance requests"]}, {"label": "Accounting", "synonyms": ["accounting"]}, {"label": "Online Payments", "synonyms": ["online payments"]}, {"label": "Vacancy Marketing", "synonyms": ["vacancy marketing"]}], "Environmental Health & Safety": [{"label": "Incident Management", "synonyms": ["incident management"]}, {"label": "Compliance Tracking", "synonyms": ["compliance tracking"]}, {"label": "Audit Management", "synonyms": ["audit management"]}, {"label": "Training Management", "synonyms": ["training management"]}, {"label": "Risk Assessment", "synonyms": ["risk assessment"]}], "Construction Management": [{"label": "Project Scheduling", "synonyms": ["project scheduling"]}, {"label": "Budgeting & Cost Control", "synonyms": ["budgeting & cost control"]}, {"label": "Document Management", "synonyms": ["document management"]}, {"label": "Bid Management", "synonyms": ["bid management"]}, {"label": "Subcontractor Management", "synonyms": ["subcontractor management"]}]};
+
 
 let DATA = {};
 let state = { category: null, statusFilter: 'all', search: '' };
@@ -305,29 +312,40 @@ function renderGrid(){
   });
 }
 
-function parseEmpSegments(text){
+function parseEmpFloor(text){
   if(!text) return null;
-  const str = text.toString();
-  const parts = str.split(/[;,]|(?:\band\b)/i).map(p => p.trim()).filter(Boolean);
-  const segments = [];
-  parts.forEach(part => {
-    const nums = (part.match(/\d[\d,]*/g) || []).map(n => parseInt(n.replace(/,/g,''), 10));
-    if(nums.length === 0) return;
-    const isOpen = /\+/.test(part);
-    if(nums.length === 1){
-      segments.push({ min: nums[0], max: isOpen ? Infinity : nums[0] });
-    } else {
-      segments.push({ min: Math.min(...nums), max: isOpen ? Infinity : Math.max(...nums) });
-    }
-  });
-  return segments.length ? segments : null;
+  const nums = (text.toString().match(/\d[\d,]*/g) || []).map(n => parseInt(n.replace(/,/g,''), 10));
+  if(nums.length === 0) return null;
+  return Math.min(...nums);
+}
+
+function geoMatches(locVal, country){
+  if(!country) return { ok: true, note: null };
+  if(!locVal) return { ok: true, note: null };
+  const lower = locVal.toLowerCase();
+  if(/worldwide|global|all countries|anywhere|international/.test(lower)) return { ok: true, note: null };
+  const aliases = (GEO_ALIASES[country] || []).map(a => a.toLowerCase());
+  const candidates = [country.toLowerCase(), ...aliases];
+  const ok = candidates.some(c => lower.includes(c));
+  return { ok, note: ok ? null : `geo may not match (${locVal})` };
+}
+
+function featureMatches(v, featureLabel){
+  if(!featureLabel) return { ok: true, note: null };
+  const list = FEATURE_LISTS[state.category] || [];
+  const entry = list.find(f => f.label === featureLabel);
+  if(!entry) return { ok: true, note: null };
+  const combined = [v.details['Features'], v.details['Notes'], v.details["Don'ts"]].filter(Boolean).join(' ').toLowerCase();
+  const ok = entry.synonyms.some(s => combined.includes(s));
+  return { ok, note: ok ? null : `"${featureLabel}" not mentioned in listing — verify manually` };
 }
 
 function runCheck(){
   const industry = document.getElementById('chkIndustry').value.trim().toLowerCase();
   const empInput = document.getElementById('chkEmp').value.trim();
   const empNum = empInput ? parseInt(empInput, 10) : null;
-  const geo = document.getElementById('chkGeo').value.trim().toLowerCase();
+  const geoCountry = document.getElementById('chkGeo').value;
+  const featureLabel = document.getElementById('chkFeature').value;
   const box = document.getElementById('chkResults');
   if(!industry){ box.innerHTML = `<div class="hint">Enter an industry to check against every vendor in ${state.category}.</div>`; return; }
   const cat = (DATA[state.category] || []).filter(v => v.status !== 'Inactive');
@@ -335,30 +353,24 @@ function runCheck(){
     const match = v.tags.find(t => t.name.toLowerCase().includes(industry) || industry.includes(t.name.toLowerCase()));
     const locKey = Object.keys(v.details).find(k => /geograph|location/i.test(k));
     const locVal = locKey ? v.details[locKey] : '';
-    let geoOk = true, geoNote = null;
-    if(geo && locVal){
-      const locLower = locVal.toLowerCase();
-      const isGlobal = /worldwide|global|all countries|anywhere|international/.test(locLower);
-      geoOk = isGlobal || locLower.includes(geo);
-      if(!geoOk) geoNote = `geo may not match (${locVal})`;
-    }
+    const { ok: geoOk, note: geoNote } = geoMatches(locVal, geoCountry);
 
     const empKey = Object.keys(v.details).find(k => /emp count|employee|provider|user/i.test(k));
-    const empSegs = empKey ? parseEmpSegments(v.details[empKey]) : null;
+    const empFloor = empKey ? parseEmpFloor(v.details[empKey]) : null;
     let empOk = true, empNote = null;
     if(empNum !== null){
-      if(!empSegs){ empOk = true; empNote = 'employee count unclear — verify manually'; }
-      else if(!empSegs.some(s => empNum >= s.min && empNum <= s.max)){
-        empOk = false;
-        empNote = `outside vendor's range (${v.details[empKey]})`;
-      }
+      if(empFloor === null){ empOk = true; empNote = 'employee count unclear — verify manually'; }
+      else if(empNum < empFloor){ empOk = false; empNote = `below vendor's minimum (${v.details[empKey]})`; }
     }
+
+    const { ok: featOk, note: featNote } = featureMatches(v, featureLabel);
 
     let fit = 'no', label = 'No match found';
     if(match){
       if(match.status === 'accept'){
-        const issues = [geoNote, empNote].filter(Boolean);
-        if(!geoOk || !empOk){ fit = 'no'; label = issues.join('; '); }
+        const hardFails = !geoOk || !empOk || !featOk;
+        const issues = [geoNote, empNote, featNote].filter(Boolean);
+        if(hardFails){ fit = 'no'; label = issues.join('; '); }
         else if(issues.length){ fit = 'cond'; label = issues.join('; '); }
         else { fit = 'yes'; label = 'Fits ICP'; }
       }
@@ -375,17 +387,27 @@ function runCheck(){
     </div>`).join('');
 }
 
+function countryOptions(){
+  return '<option value="">Any geography</option>' + COUNTRIES.map(c=>`<option value="${c}">${c}</option>`).join('');
+}
+function featureOptions(){
+  const list = FEATURE_LISTS[state.category] || [];
+  if(!list.length) return '<option value="">No standard feature list for this category</option>';
+  return '<option value="">Any feature</option>' + list.map(f=>`<option value="${f.label.replace(/"/g,'')}">${f.label}</option>`).join('');
+}
+
 function renderContent(){
   document.getElementById('contentArea').innerHTML = `
     <div class="checker">
       <div class="checker-head"><span class="tag">Quick check</span></div>
       <h2>Does this lead fit anyone's ICP?</h2>
-      <p class="sub">Type an industry and pick the employee band + geography an SDR is qualifying against. Scans every active vendor in the current category instantly.</p>
+      <p class="sub">Type an industry, pick employee count, geography and a feature an SDR is qualifying against. Scans every active vendor in the current category instantly.</p>
       <div class="checker-grid">
         <input id="chkIndustry" type="text" placeholder="Industry, e.g. Construction, Ecommerce…" list="industryList">
         <datalist id="industryList"></datalist>
         <input id="chkEmp" type="number" placeholder="Employee count, e.g. 150" min="0">
-        <input id="chkGeo" type="text" placeholder="Geography, e.g. USA, Canada…">
+        <select id="chkGeo">${countryOptions()}</select>
+        <select id="chkFeature">${featureOptions()}</select>
         <button class="go-btn" id="chkBtn">Check fit</button>
       </div>
       <div class="check-results" id="chkResults"></div>
