@@ -437,7 +437,7 @@ function runCheck(){
   const geoCountry = document.getElementById('chkGeo').value;
   const box = document.getElementById('chkResults');
   if(selectedIndustries.length === 0){ box.innerHTML = `<div class="hint">Select at least one industry to check against every vendor in ${state.category}.</div>`; return; }
-  const cat = (DATA[state.category] || []).filter(v => v.status !== 'Inactive');
+  const cat = (DATA[state.category] || []).filter(v => v.status === 'Active');
   const rows = cat.map(v=>{
     const { ok: indOk, fails: indFails } = industriesMatch(v, selectedIndustries);
     const { ok: featOk, fails: featFails } = featuresMatch(v, selectedFeatures);
