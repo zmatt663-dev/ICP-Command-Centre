@@ -80,6 +80,7 @@
   .check-results .hint{font-size:12px; color:#9FC0BA;}
   .result-row{display:flex; align-items:center; gap:10px; padding:9px 12px; background:rgba(255,255,255,0.07); border-radius:8px; margin-top:7px; font-size:13px;}
   .result-row .rv{font-weight:600; min-width:170px;}
+  .rv-note{display:block; font-weight:500; font-size:10.5px; color:var(--lime); margin-top:2px;}
   .result-row .rd{font-size:11.5px; color:#B9D2CD; flex:1;}
   .badge-fit{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.05em; padding:3px 9px; border-radius:20px; font-weight:700; text-transform:uppercase;}
   .badge-fit.fit-yes{background:var(--lime); color:var(--forest);}
@@ -183,15 +184,24 @@ function buildUrl(){
   return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values:batchGet?${ranges}&key=${API_KEY}&_=${Date.now()}`;
 }
 
-function rowsToVendors(values){
+function normalizeCombo(str){
+  const s = str.toString().toLowerCase().replace(/\bonly\b/g,'').trim();
+  const parts = s.split(/[+/]|\band\b/i).map(p => p.trim().toUpperCase()).filter(Boolean);
+  return new Set(parts);
+}
+
+function rowsToVendors(values, categoryName){
   if(!values || values.length < 2) return [];
   const header = values[0];
   const findCol = re => header.findIndex(h => h && re.test(h.toString()));
   const cName = findCol(/^name$/i), cStatus = findCol(/^status$/i),
         cEmp = findCol(/emp count|employee|no\.?\s*of\b|provider|# of users|no\. of users/i),
         cGeo = findCol(/geograph|location/i),
-        cFeat = findCol(/^features/i), cNotes = findCol(/^notes/i), cDonts = findCol(/don'?ts?/i);
+        cFeat = findCol(/^features/i), cNotes = findCol(/^notes/i), cDonts = findCol(/don'?ts?/i),
+        cMandatory = findCol(/^mandatory\s*feature$/i);
+  const cUqc = header.findIndex(h => h && h.toString().toLowerCase().includes('unique') && h.toString().toLowerCase().includes('criteria'));
   const indCols = header.reduce((arr,h,i)=>{ if(h && h.toString().startsWith('Accepted Industry')) arr.push(i); return arr; }, []);
+  const featureNCols = header.reduce((arr,h,i)=>{ if(h && /^feature\s*\d+$/i.test(h.toString().trim())) arr.push(i); return arr; }, []);
   const vendors = [];
   for(let i=1;i<values.length;i++){
     const row = values[i];
@@ -204,7 +214,15 @@ function rowsToVendors(values){
     if(cFeat>=0 && row[cFeat]) details['Features'] = row[cFeat];
     if(cNotes>=0 && row[cNotes]) details['Notes'] = row[cNotes];
     if(cDonts>=0 && row[cDonts]) details["Don'ts"] = row[cDonts];
-    vendors.push({ name, status: (cStatus>=0 && row[cStatus]) || 'Active', tags, details });
+    const vendor = { name, status: (cStatus>=0 && row[cStatus]) || 'Active', tags, details };
+    if(cUqc>=0 && row[cUqc]) vendor.uqc = row[cUqc];
+    if(categoryName === 'Medical'){
+      vendor.medicalCombos = featureNCols.map(c => row[c]).filter(Boolean).map(normalizeCombo);
+    } else if(categoryName === 'HR'){
+      vendor.hrMandatory = (cMandatory>=0 && row[cMandatory]) ? row[cMandatory].toString().trim() : null;
+      vendor.hrOptional = featureNCols.map(c => row[c]).filter(Boolean);
+    }
+    vendors.push(vendor);
   }
   return vendors;
 }
@@ -221,7 +239,7 @@ async function loadData(){
     DATA = {};
     (json.valueRanges || []).forEach(vr => {
       const catName = vr.range.split('!')[0].replace(/^'|'$/g, '');
-      DATA[catName] = rowsToVendors(vr.values);
+      DATA[catName] = rowsToVendors(vr.values, catName);
     });
     state.category = state.category && DATA[state.category] ? state.category : CATEGORIES.find(c => DATA[c] && DATA[c].length) || CATEGORIES[0];
     document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
@@ -275,6 +293,20 @@ function getIndustryOptions(){
   return [...names].sort();
 }
 function getFeatureOptionLabels(){
+  const cat = DATA[state.category] || [];
+  if(state.category === 'Medical'){
+    const tokens = new Set();
+    cat.forEach(v => (v.medicalCombos || []).forEach(combo => combo.forEach(t => tokens.add(t))));
+    return [...tokens].sort();
+  }
+  if(state.category === 'HR'){
+    const tokens = new Set();
+    cat.forEach(v => {
+      if(v.hrMandatory) tokens.add(v.hrMandatory);
+      (v.hrOptional || []).forEach(f => tokens.add(f));
+    });
+    return [...tokens].sort();
+  }
   const list = FEATURE_LISTS[state.category] || [];
   return list.map(f => f.label);
 }
@@ -421,13 +453,31 @@ function industriesMatch(v, selectedIndustries){
 }
 
 function featuresMatch(v, selectedFeatures){
-  if(selectedFeatures.length === 0) return { ok: true, fails: [] };
+  if(selectedFeatures.length === 0) return { ok: true, fails: [], excluded: false };
+
+  if(state.category === 'Medical'){
+    if(!v.medicalCombos || v.medicalCombos.length === 0) return { ok: false, fails: [], excluded: true };
+    const selSet = new Set(selectedFeatures.map(s => s.toUpperCase()));
+    const matches = v.medicalCombos.some(combo => combo.size === selSet.size && [...combo].every(t => selSet.has(t)));
+    return { ok: matches, fails: matches ? [] : ['exact feature combination not offered'], excluded: false };
+  }
+
+  if(state.category === 'HR'){
+    if(v.hrMandatory){
+      const ok = selectedFeatures.includes(v.hrMandatory);
+      return { ok, fails: ok ? [] : [`requires mandatory feature: ${v.hrMandatory}`], excluded: false };
+    }
+    const opt = v.hrOptional || [];
+    const fails = selectedFeatures.filter(f => !opt.includes(f));
+    return { ok: fails.length === 0, fails, excluded: false };
+  }
+
   const fails = [];
   for(const feat of selectedFeatures){
     const { ok } = featureMatches(v, feat);
     if(!ok) fails.push(feat);
   }
-  return { ok: fails.length === 0, fails };
+  return { ok: fails.length === 0, fails, excluded: false };
 }
 
 function runCheck(){
@@ -441,7 +491,8 @@ function runCheck(){
   const cat = (DATA[state.category] || []).filter(v => v.status === 'Active');
   const rows = cat.map(v=>{
     const { ok: indOk, fails: indFails } = industriesMatch(v, selectedIndustries);
-    const { ok: featOk, fails: featFails } = featuresMatch(v, selectedFeatures);
+    const { ok: featOk, fails: featFails, excluded: featExcluded } = featuresMatch(v, selectedFeatures);
+    if(featExcluded) return null;
 
     const locKey = Object.keys(v.details).find(k => /geograph|location/i.test(k));
     const locVal = locKey ? v.details[locKey] : '';
@@ -468,7 +519,7 @@ function runCheck(){
       else { fit = 'yes'; label = 'Fits ICP'; }
     }
     return {v, fit, label};
-  }).sort((a,b)=>{ const order={yes:0,cond:1,no:2}; return order[a.fit]-order[b.fit]; });
+  }).filter(Boolean).sort((a,b)=>{ const order={yes:0,cond:1,no:2}; return order[a.fit]-order[b.fit]; });
 
   if(!rows.some(r => r.fit === 'yes')){
     box.innerHTML = `<div class="hint">No vendor matches all of these.</div>`;
@@ -477,7 +528,7 @@ function runCheck(){
   box.innerHTML = rows.map(r=>`
     <div class="result-row">
       <span class="badge-fit fit-${r.fit==='yes'?'yes':r.fit==='cond'?'cond':'no'}">${r.fit==='yes'?'Fit':r.fit==='cond'?'Check':'No fit'}</span>
-      <span class="rv">${r.v.name}</span>
+      <span class="rv">${r.v.name}${r.v.uqc ? `<span class="rv-note">⚠ ${r.v.uqc}</span>` : ''}</span>
       <span class="rd">${r.label}${r.v.status!=='Active' ? ' · '+r.v.status : ''}</span>
     </div>`).join('');
 }
