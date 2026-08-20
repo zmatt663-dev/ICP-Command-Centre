@@ -67,11 +67,21 @@
   .ms-toggle .ms-caret{opacity:.6; font-size:10px;}
   .ms-panel{display:none; position:absolute; top:calc(100% + 6px); left:0; z-index:20; width:300px; max-height:280px; overflow-y:auto; overflow-x:hidden; background:var(--forest-2); border:1px solid rgba(255,255,255,0.16); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.35); padding:6px;}
   .ms-panel.open{display:block;}
-  .ms-option{display:flex; align-items:flex-start; gap:8px; padding:7px 8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer;}
-  .ms-option input{flex-shrink:0; margin-top:2px;}
-  .ms-option span{flex:1; min-width:0; word-break:break-word; line-height:1.35;}
+  .ms-option{display:flex; align-items:flex-start; gap:9px; padding:8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer;}
+  .ms-option span{flex:1; min-width:0; word-break:break-word; line-height:1.4; padding-top:1px;}
   .ms-option:hover{background:rgba(255,255,255,0.08);}
-  .ms-option input{accent-color:var(--lime); cursor:pointer;}
+  .ms-option input[type=checkbox]{
+    appearance:none; -webkit-appearance:none; flex-shrink:0;
+    width:16px; height:16px; margin:1px 0 0; border-radius:4px;
+    border:1.5px solid rgba(255,255,255,0.38); background:rgba(255,255,255,0.04);
+    cursor:pointer; position:relative;
+  }
+  .ms-option input[type=checkbox]:checked{background:var(--lime); border-color:var(--lime);}
+  .ms-option input[type=checkbox]:checked::after{
+    content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:11px; line-height:1; color:var(--forest); font-weight:700;
+  }
+  .ms-option:hover input[type=checkbox]{border-color:var(--lime);}
   .ms-empty{padding:10px 8px; font-size:12px; color:#9FC0BA;}
   .ms-chips{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; width:100%;}
   .ms-chip{display:inline-flex; align-items:center; gap:5px; background:rgba(179,250,104,0.14); color:var(--lime); border:1px solid rgba(179,250,104,0.3); border-radius:20px; padding:3px 6px 3px 10px; font-size:11px; font-weight:600;}
@@ -192,6 +202,11 @@ function normalizeCombo(str){
   return new Set(parts);
 }
 
+function comboLabel(set){
+  const arr = [...set].sort();
+  return arr.length === 1 ? `${arr[0]} Only` : arr.join(' + ');
+}
+
 function rowsToVendors(values, categoryName){
   if(!values || values.length < 2) return [];
   const header = values[0];
@@ -297,9 +312,9 @@ function getIndustryOptions(){
 function getFeatureOptionLabels(){
   const cat = DATA[state.category] || [];
   if(state.category === 'Medical'){
-    const tokens = new Set();
-    cat.forEach(v => (v.medicalCombos || []).forEach(combo => combo.forEach(t => tokens.add(t))));
-    return [...tokens].sort();
+    const labels = new Set();
+    cat.forEach(v => (v.medicalCombos || []).forEach(combo => labels.add(comboLabel(combo))));
+    return [...labels].sort();
   }
   if(state.category === 'HR'){
     const tokens = new Set();
@@ -459,9 +474,9 @@ function featuresMatch(v, selectedFeatures){
 
   if(state.category === 'Medical'){
     if(!v.medicalCombos || v.medicalCombos.length === 0) return { ok: false, fails: [], excluded: true };
-    const selSet = new Set(selectedFeatures.map(s => s.toUpperCase()));
-    const matches = v.medicalCombos.some(combo => combo.size === selSet.size && [...combo].every(t => selSet.has(t)));
-    return { ok: matches, fails: matches ? [] : ['exact feature combination not offered'], excluded: false };
+    const vendorLabels = new Set(v.medicalCombos.map(comboLabel));
+    const matches = selectedFeatures.some(sel => vendorLabels.has(sel));
+    return { ok: matches, fails: matches ? [] : ['none of the selected combinations are offered'], excluded: false };
   }
 
   if(state.category === 'HR'){
