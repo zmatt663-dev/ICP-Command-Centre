@@ -65,9 +65,11 @@
   .ms-toggle:hover{background:rgba(255,255,255,0.13);}
   .ms-toggle .ms-label{opacity:.92;}
   .ms-toggle .ms-caret{opacity:.6; font-size:10px;}
-  .ms-panel{display:none; position:absolute; top:calc(100% + 6px); left:0; z-index:20; width:260px; max-height:260px; overflow-y:auto; background:var(--forest-2); border:1px solid rgba(255,255,255,0.16); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.35); padding:6px;}
+  .ms-panel{display:none; position:absolute; top:calc(100% + 6px); left:0; z-index:20; width:300px; max-height:280px; overflow-y:auto; overflow-x:hidden; background:var(--forest-2); border:1px solid rgba(255,255,255,0.16); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.35); padding:6px;}
   .ms-panel.open{display:block;}
-  .ms-option{display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer;}
+  .ms-option{display:flex; align-items:flex-start; gap:8px; padding:7px 8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer;}
+  .ms-option input{flex-shrink:0; margin-top:2px;}
+  .ms-option span{flex:1; min-width:0; word-break:break-word; line-height:1.35;}
   .ms-option:hover{background:rgba(255,255,255,0.08);}
   .ms-option input{accent-color:var(--lime); cursor:pointer;}
   .ms-empty{padding:10px 8px; font-size:12px; color:#9FC0BA;}
