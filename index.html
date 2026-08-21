@@ -84,6 +84,12 @@
   }
   .ms-option:hover input[type=checkbox]{border-color:var(--lime);}
   .ms-empty{padding:10px 8px; font-size:12px; color:#9FC0BA;}
+  .ms-search{width:100%; box-sizing:border-box; font-family:'Inter',sans-serif; font-size:12.5px; padding:8px 9px; margin-bottom:6px; border-radius:7px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.07); color:#fff; outline:none; position:sticky; top:0; z-index:2;}
+  .ms-search::placeholder{color:#9FC0BA;}
+  .ms-search:focus{border-color:var(--lime);}
+  .ms-option-single{padding:8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer; word-break:break-word;}
+  .ms-option-single:hover{background:rgba(255,255,255,0.08);}
+  .ms-option-single.ms-option-active{background:rgba(179,250,104,0.14); color:var(--lime); font-weight:600;}
   .ms-chips{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; width:100%;}
   .ms-chip{display:inline-flex; align-items:center; gap:5px; background:rgba(179,250,104,0.14); color:var(--lime); border:1px solid rgba(179,250,104,0.3); border-radius:20px; padding:3px 6px 3px 10px; font-size:11px; font-weight:600;}
   .ms-chip-x{background:none; border:none; color:var(--lime); cursor:pointer; font-size:13px; line-height:1; padding:0 3px;}
@@ -303,6 +309,8 @@ function showToast(msg){
 }
 
 const msState = { industry: new Set(), feature: new Set() };
+const msQuery = { industry: '', feature: '', geo: '' };
+let geoState = '';
 
 function getIndustryOptions(){
   const cat = DATA[state.category] || [];
@@ -341,22 +349,37 @@ document.addEventListener('click', (e)=> {
 });
 
 function renderMultiSelect(kind){
-  const options = kind === 'industry' ? getIndustryOptions() : getFeatureOptionLabels();
-  const selected = msState[kind];
   const panel = document.getElementById(`ms-${kind}-panel`);
   if(!panel) return;
-  panel.innerHTML = options.length ? options.map(opt => {
+  msQuery[kind] = '';
+  panel.innerHTML = `<input type="text" class="ms-search" id="ms-${kind}-search" placeholder="Search…" autocomplete="off">
+    <div class="ms-options" id="ms-${kind}-options"></div>`;
+  document.getElementById(`ms-${kind}-search`).addEventListener('input', (e)=>{
+    msQuery[kind] = e.target.value.toLowerCase();
+    renderOptionsList(kind);
+  });
+  renderOptionsList(kind);
+  renderChips(kind);
+}
+
+function renderOptionsList(kind){
+  const allOptions = kind === 'industry' ? getIndustryOptions() : getFeatureOptionLabels();
+  const q = msQuery[kind] || '';
+  const options = q ? allOptions.filter(o => o.toLowerCase().includes(q)) : allOptions;
+  const selected = msState[kind];
+  const container = document.getElementById(`ms-${kind}-options`);
+  if(!container) return;
+  container.innerHTML = options.length ? options.map(opt => {
     const safe = opt.replace(/"/g,'&quot;');
     return `<label class="ms-option"><input type="checkbox" value="${safe}" ${selected.has(opt)?'checked':''} data-kind="${kind}"><span>${opt}</span></label>`;
-  }).join('') : `<div class="ms-empty">No ${kind==='industry'?'industries':'standard features'} for this category</div>`;
-  panel.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+  }).join('') : `<div class="ms-empty">${q ? 'No matches' : `No ${kind==='industry'?'industries':'standard features'} for this category`}</div>`;
+  container.querySelectorAll('input[type=checkbox]').forEach(cb=>{
     cb.addEventListener('change', (e)=>{
       const val = e.target.value;
       if(e.target.checked) msState[kind].add(val); else msState[kind].delete(val);
       renderChips(kind);
     });
   });
-  renderChips(kind);
 }
 
 function renderChips(kind){
@@ -375,7 +398,8 @@ function renderChips(kind){
     btn.addEventListener('click', (e)=>{
       const k = e.target.getAttribute('data-kind'), val = e.target.getAttribute('data-val');
       msState[k].delete(val);
-      renderMultiSelect(k);
+      renderOptionsList(k);
+      renderChips(k);
     });
   });
 }
@@ -503,7 +527,7 @@ function runCheck(){
   const selectedFeatures = [...msState.feature];
   const empInput = document.getElementById('chkEmp').value.trim();
   const empNum = empInput ? parseInt(empInput, 10) : null;
-  const geoCountry = document.getElementById('chkGeo').value;
+  const geoCountry = geoState;
   const box = document.getElementById('chkResults');
   if(selectedIndustries.length === 0){ box.innerHTML = `<div class="hint">Select at least one industry to check against every vendor in ${state.category}.</div>`; return; }
   const cat = (DATA[state.category] || []).filter(v => v.status === 'Active');
@@ -551,8 +575,38 @@ function runCheck(){
     </div>`).join('');
 }
 
-function countryOptions(){
-  return '<option value="">Any geography</option>' + COUNTRIES.map(c=>`<option value="${c}">${c}</option>`).join('');
+function renderGeoDropdown(){
+  const panel = document.getElementById('ms-geo-panel');
+  if(!panel) return;
+  msQuery.geo = '';
+  panel.innerHTML = `<input type="text" class="ms-search" id="ms-geo-search" placeholder="Search country…" autocomplete="off">
+    <div class="ms-options" id="ms-geo-options"></div>`;
+  document.getElementById('ms-geo-search').addEventListener('input', (e)=>{
+    msQuery.geo = e.target.value.toLowerCase();
+    renderGeoOptionsList();
+  });
+  renderGeoOptionsList();
+}
+
+function renderGeoOptionsList(){
+  const container = document.getElementById('ms-geo-options');
+  if(!container) return;
+  const q = msQuery.geo || '';
+  const filtered = q ? COUNTRIES.filter(c => c.toLowerCase().includes(q)) : COUNTRIES;
+  const rows = [];
+  if(!q) rows.push(`<div class="ms-option-single ${geoState===''?'ms-option-active':''}" data-val="">Any geography</div>`);
+  filtered.forEach(c => {
+    const safe = c.replace(/"/g,'&quot;');
+    rows.push(`<div class="ms-option-single ${geoState===c?'ms-option-active':''}" data-val="${safe}">${c}</div>`);
+  });
+  container.innerHTML = rows.length ? rows.join('') : `<div class="ms-empty">No matches</div>`;
+  container.querySelectorAll('.ms-option-single').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      geoState = el.getAttribute('data-val');
+      document.getElementById('ms-geo-toggle').querySelector('.ms-label').textContent = geoState || 'Any geography';
+      document.querySelectorAll('.ms-panel.open').forEach(p => p.classList.remove('open'));
+    });
+  });
 }
 
 function renderContent(){
@@ -571,7 +625,10 @@ function renderContent(){
           <div class="ms-panel" id="ms-feature-panel"></div>
         </div>
         <input id="chkEmp" type="number" placeholder="Employee count, e.g. 150" min="0">
-        <select id="chkGeo">${countryOptions()}</select>
+        <div class="ms" id="ms-geo">
+          <button type="button" class="ms-toggle" id="ms-geo-toggle"><span class="ms-label">Any geography</span><span class="ms-caret">▾</span></button>
+          <div class="ms-panel" id="ms-geo-panel"></div>
+        </div>
         <button class="go-btn" id="chkBtn">Check fit</button>
       </div>
       <div class="ms-chips" id="ms-industry-chips"></div>
@@ -584,10 +641,13 @@ function renderContent(){
   document.getElementById('chkBtn').addEventListener('click', runCheck);
   msState.industry = new Set();
   msState.feature = new Set();
+  geoState = '';
   renderMultiSelect('industry');
   renderMultiSelect('feature');
+  renderGeoDropdown();
   document.getElementById('ms-industry-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('industry'); });
   document.getElementById('ms-feature-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('feature'); });
+  document.getElementById('ms-geo-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('geo'); });
 }
 
 function render(){
