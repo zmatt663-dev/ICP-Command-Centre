@@ -18,56 +18,46 @@
   body{background:var(--cream); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
   h1,h2,h3,.display{font-family:'Fraunces',serif; font-weight:600; letter-spacing:-0.01em;}
   .mono{font-family:'IBM Plex Mono',monospace;}
-  .shell{display:flex; min-height:100vh;}
-  .sidebar{width:236px; flex-shrink:0; background:var(--forest); color:#DCEAE7; padding:22px 16px 20px; position:sticky; top:0; height:100vh; overflow-y:auto;}
-  .brand{display:flex; align-items:center; gap:10px; padding:2px 6px 22px;}
-  .brand .mark{width:30px; height:30px; border-radius:8px; background:var(--lime); display:flex; align-items:center; justify-content:center; color:var(--forest); font-family:'Fraunces',serif; font-weight:700; font-size:15px;}
-  .brand .name{font-family:'Fraunces',serif; font-size:15.5px; font-weight:600; color:#fff; line-height:1.15;}
-  .brand .sub{font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em; color:#93B0AC; text-transform:uppercase;}
-  .nav-label{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:#6E938E; margin:18px 10px 8px;}
-  .cat-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px;}
-  .cat-item{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 10px; border-radius:8px; cursor:pointer; font-size:13.3px; color:#C9DDD9; transition:background .12s ease, color .12s ease;}
-  .cat-item:hover{background:rgba(255,255,255,0.06); color:#fff;}
-  .cat-item.active{background:var(--lime); color:var(--forest); font-weight:600;}
-  .cat-item .cnt{font-family:'IBM Plex Mono',monospace; font-size:10.5px; opacity:.75;}
-  .side-foot{margin-top:22px; padding:12px 12px; border-radius:10px; background:rgba(179,250,104,0.08); border:1px solid rgba(179,250,104,0.18); font-size:11.5px; line-height:1.5; color:#B8CFCB;}
-  .side-foot b{color:var(--lime); font-weight:600;}
-  .side-refresh{margin-top:10px; width:100%; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.06); color:#DCEAE7; font-size:11.5px; cursor:pointer; font-family:'Inter',sans-serif;}
-  .side-refresh:hover{background:rgba(255,255,255,0.12);}
-  .side-updated{font-size:10px; color:#6E938E; margin-top:6px; text-align:center; font-family:'IBM Plex Mono',monospace;}
-  .main{flex:1; min-width:0;}
-  .topbar{position:sticky; top:0; z-index:5; background:rgba(247,245,239,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); padding:18px 34px 16px;}
-  .topbar h1{font-size:23px; margin:0 0 3px; color:var(--forest);}
-  .topbar .desc{font-size:12.8px; color:var(--ink-soft); margin-bottom:14px;}
-  .searchrow{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
-  .search-box{flex:1; min-width:220px; display:flex; align-items:center; gap:8px; background:var(--paper); border:1px solid var(--line); border-radius:9px; padding:9px 13px; box-shadow:var(--shadow);}
-  .search-box input{border:none; outline:none; font-size:13.5px; flex:1; background:transparent; font-family:'Inter',sans-serif;}
-  .search-box svg{flex-shrink:0; opacity:.5;}
-  .pill-toggle{display:flex; background:var(--paper); border:1px solid var(--line); border-radius:9px; overflow:hidden; box-shadow:var(--shadow);}
-  .pill-toggle button{border:none; background:transparent; padding:9px 14px; font-size:12.6px; font-weight:600; cursor:pointer; color:var(--ink-soft); font-family:'Inter',sans-serif; white-space:nowrap;}
-  .pill-toggle button.on{background:var(--forest); color:var(--lime);}
-  .content{padding:22px 34px 60px;}
-  .checker{background:linear-gradient(135deg, var(--forest) 0%, var(--forest-3) 100%); border-radius:16px; padding:22px 26px; color:#fff; margin-bottom:26px; box-shadow:var(--shadow); position:relative;}
-  .checker::after{content:""; position:absolute; right:10px; top:-20px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle, rgba(179,250,104,0.16), transparent 70%); pointer-events:none;}
-  .checker-head{display:flex; align-items:baseline; gap:10px; margin-bottom:4px; position:relative;}
-  .checker-head .tag{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.09em; text-transform:uppercase; background:var(--lime); color:var(--forest); padding:3px 8px; border-radius:20px; font-weight:700;}
-  .checker h2{font-size:19px; margin:6px 0 3px; color:#fff;}
-  .checker p.sub{font-size:12.6px; color:#B9D2CD; margin:0 0 16px; max-width:640px;}
-  .checker-grid{display:flex; gap:10px; flex-wrap:wrap; position:relative;}
-  .checker-grid input{font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none; min-width:170px;}
-  .checker-grid input::placeholder{color:#9FC0BA;}
-  .checker-grid input:focus{border-color:var(--lime); background:rgba(255,255,255,0.13);}
-  .checker-grid select{font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none; min-width:170px; cursor:pointer;}
-  .checker-grid select:focus{border-color:var(--lime); background:rgba(255,255,255,0.13);}
-  .checker-grid select option{color:#111;}
-  .ms{position:relative; min-width:200px;}
-  .ms-toggle{width:100%; text-align:left; display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:'Inter',sans-serif; font-size:13px; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; cursor:pointer;}
-  .ms-toggle:hover{background:rgba(255,255,255,0.13);}
-  .ms-toggle .ms-label{opacity:.92;}
-  .ms-toggle .ms-caret{opacity:.6; font-size:10px;}
-  .ms-panel{display:none; position:absolute; top:calc(100% + 6px); left:0; z-index:20; width:300px; max-height:300px; background:var(--forest-2); border:1px solid rgba(255,255,255,0.16); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.35); padding:6px; flex-direction:column;}
-  .ms-panel.open{display:flex;}
-  .ms-option{display:flex; align-items:flex-start; gap:9px; padding:8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer;}
+
+  /* ---------- Top bar: brand + category tabs ---------- */
+  .topbar-wrap{position:sticky; top:0; z-index:15; background:var(--forest); box-shadow:0 2px 12px rgba(0,0,0,0.15);}
+  .topbar-inner{display:flex; align-items:center; gap:20px; padding:14px 26px; max-width:100%;}
+  .brand{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+  .brand .mark{width:32px; height:32px; border-radius:8px; background:var(--lime); display:flex; align-items:center; justify-content:center; color:var(--forest); font-family:'Fraunces',serif; font-weight:700; font-size:16px;}
+  .brand .name{font-family:'Fraunces',serif; font-size:16px; font-weight:600; color:#fff; line-height:1.15;}
+  .brand .sub{font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.06em; color:#93B0AC; text-transform:uppercase;}
+  .cat-tabs{display:flex; gap:6px; overflow-x:auto; flex:1; scrollbar-width:thin;}
+  .cat-tabs::-webkit-scrollbar{height:6px;}
+  .cat-tab{flex-shrink:0; white-space:nowrap; display:flex; align-items:center; gap:7px; padding:8px 14px; border-radius:20px; cursor:pointer; font-size:12.8px; color:#C9DDD9; background:rgba(255,255,255,0.05); border:1px solid transparent; transition:background .12s ease, color .12s ease;}
+  .cat-tab:hover{background:rgba(255,255,255,0.1); color:#fff;}
+  .cat-tab.active{background:var(--lime); color:var(--forest); font-weight:700;}
+  .cat-tab .cnt{font-family:'IBM Plex Mono',monospace; font-size:10.5px; opacity:.75;}
+
+  /* ---------- Body layout: filter panel + main content ---------- */
+  .body-layout{display:flex; align-items:flex-start;}
+  .filter-panel{width:284px; flex-shrink:0; background:var(--forest); color:#DCEAE7; padding:18px 16px 22px; position:sticky; top:57px; height:calc(100vh - 57px); overflow-y:auto;}
+  .filter-block{margin-bottom:16px;}
+  .filter-label{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#6E938E; margin-bottom:7px;}
+  .side-search{width:100%; box-sizing:border-box; font-family:'Inter',sans-serif; font-size:13px; padding:9px 11px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none;}
+  .side-search::placeholder{color:#9FC0BA;}
+  .side-search:focus{border-color:var(--lime); background:rgba(255,255,255,0.13);}
+  .status-pills{display:flex; flex-wrap:wrap; gap:5px;}
+  .status-pill-btn{flex:1; min-width:60px; text-align:center; padding:7px 6px; border-radius:7px; font-size:11.5px; font-weight:600; cursor:pointer; background:rgba(255,255,255,0.06); color:#C9DDD9; border:1px solid transparent;}
+  .status-pill-btn:hover{background:rgba(255,255,255,0.12);}
+  .status-pill-btn.on{background:var(--lime); color:var(--forest);}
+
+  details.filter-group{border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;}
+  details.filter-group summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; font-size:13px; font-weight:600; color:#fff; padding-bottom:8px;}
+  details.filter-group summary::-webkit-details-marker{display:none;}
+  details.filter-group summary::after{content:"▾"; font-size:10px; color:#8FB5AE; transition:transform .15s ease;}
+  details.filter-group[open] summary::after{transform:rotate(180deg);}
+  details.filter-group .count-badge{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--lime); font-weight:400;}
+
+  .ms-search{width:100%; box-sizing:border-box; font-family:'Inter',sans-serif; font-size:12.5px; padding:8px 9px; margin-bottom:6px; border-radius:7px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none;}
+  .ms-search::placeholder{color:#9FC0BA;}
+  .ms-search:focus{border-color:var(--lime);}
+  .ms-options{max-height:200px; overflow-y:auto; overflow-x:hidden; margin-bottom:6px;}
+  .ms-option{display:flex; align-items:flex-start; gap:9px; padding:6px 4px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer;}
   .ms-option span{flex:1; min-width:0; word-break:break-word; line-height:1.4; padding-top:1px;}
   .ms-option:hover{background:rgba(255,255,255,0.08);}
   .ms-option input[type=checkbox]{
@@ -83,51 +73,65 @@
     font-size:11px; line-height:1; color:var(--forest); font-weight:700;
   }
   .ms-option:hover input[type=checkbox]{border-color:var(--lime);}
-  .ms-empty{padding:10px 8px; font-size:12px; color:#9FC0BA;}
-  .ms-search{flex-shrink:0; width:100%; box-sizing:border-box; font-family:'Inter',sans-serif; font-size:12.5px; padding:8px 9px; margin-bottom:6px; border-radius:7px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none;}
-  .ms-options{flex:1; min-height:0; overflow-y:auto; overflow-x:hidden;}
-  .ms-search::placeholder{color:#9FC0BA;}
-  .ms-search:focus{border-color:var(--lime);}
-  .ms-option-single{padding:8px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer; word-break:break-word;}
+  .ms-option-single{padding:7px 6px; border-radius:6px; font-size:12.5px; color:#DCEAE7; cursor:pointer; word-break:break-word;}
   .ms-option-single:hover{background:rgba(255,255,255,0.08);}
   .ms-option-single.ms-option-active{background:rgba(179,250,104,0.14); color:var(--lime); font-weight:600;}
-  .ms-chips{display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; width:100%;}
-  .ms-chip{display:inline-flex; align-items:center; gap:5px; background:rgba(179,250,104,0.14); color:var(--lime); border:1px solid rgba(179,250,104,0.3); border-radius:20px; padding:3px 6px 3px 10px; font-size:11px; font-weight:600;}
+  .ms-empty{padding:8px 4px; font-size:12px; color:#9FC0BA;}
+  .ms-chips{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:4px;}
+  .ms-chip{display:inline-flex; align-items:center; gap:5px; background:rgba(179,250,104,0.14); color:var(--lime); border:1px solid rgba(179,250,104,0.3); border-radius:20px; padding:3px 6px 3px 10px; font-size:10.5px; font-weight:600;}
   .ms-chip-x{background:none; border:none; color:var(--lime); cursor:pointer; font-size:13px; line-height:1; padding:0 3px;}
-  .go-btn{background:var(--lime); color:var(--forest); border:none; font-weight:700; font-size:13px; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:'Inter',sans-serif;}
-  .go-btn:hover{background:var(--lime-dim);}
-  .check-results{margin-top:16px; position:relative;}
-  .check-results .hint{font-size:12px; color:#9FC0BA;}
-  .result-row{display:flex; align-items:center; gap:10px; padding:9px 12px; background:rgba(255,255,255,0.07); border-radius:8px; margin-top:7px; font-size:13px;}
-  .result-row .rv{font-weight:600; min-width:170px;}
-  .rv-note{display:block; font-weight:500; font-size:10.5px; color:var(--lime); margin-top:2px;}
-  .result-row .rd{font-size:11.5px; color:#B9D2CD; flex:1;}
-  .badge-fit{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.05em; padding:3px 9px; border-radius:20px; font-weight:700; text-transform:uppercase;}
-  .badge-fit.fit-yes{background:var(--lime); color:var(--forest);}
-  .badge-fit.fit-no{background:#5A3A38; color:#F3B9B4;}
-  .badge-fit.fit-cond{background:#5A4E23; color:#F3DE9C;}
-  .section-title{display:flex; align-items:baseline; justify-content:space-between; margin:4px 0 12px;}
-  .section-title h2{font-size:17px; margin:0; color:var(--forest);}
-  .section-title .count{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-soft);}
+
+  .emp-input{width:100%; box-sizing:border-box; font-family:'Inter',sans-serif; font-size:13px; padding:9px 11px; border-radius:8px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#fff; outline:none;}
+  .emp-input::placeholder{color:#9FC0BA;}
+  .emp-input:focus{border-color:var(--lime); background:rgba(255,255,255,0.13);}
+
+  .clear-filters-btn{width:100%; margin-top:6px; padding:9px; border-radius:8px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.05); color:#DCEAE7; font-size:12px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif;}
+  .clear-filters-btn:hover{background:rgba(255,255,255,0.12);}
+
+  .side-foot{margin-top:16px; padding:12px 12px; border-radius:10px; background:rgba(179,250,104,0.08); border:1px solid rgba(179,250,104,0.18); font-size:11.5px; line-height:1.5; color:#B8CFCB;}
+  .side-foot b{color:var(--lime); font-weight:600;}
+  .side-refresh{margin-top:10px; width:100%; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.06); color:#DCEAE7; font-size:11.5px; cursor:pointer; font-family:'Inter',sans-serif;}
+  .side-refresh:hover{background:rgba(255,255,255,0.12);}
+  .side-updated{font-size:10px; color:#6E938E; margin-top:6px; text-align:center; font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- Main content ---------- */
+  .main-content{flex:1; min-width:0; padding:24px 32px 60px;}
+  .content-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:16px;}
+  .content-head h1{font-size:23px; margin:0 0 3px; color:var(--forest);}
+  .content-head .desc{font-size:12.8px; color:var(--ink-soft);}
+  .content-head .count{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-soft);}
+
   .vgrid{display:grid; grid-template-columns:repeat(auto-fill, minmax(340px,1fr)); gap:14px;}
-  .vcard{background:var(--paper); border:1px solid var(--line); border-radius:13px; padding:16px 17px 14px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px;}
+  .vcard{background:var(--paper); border:1px solid var(--line); border-radius:13px; padding:16px 17px 14px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:10px; position:relative;}
+  .vcard.has-fit{border-left:4px solid var(--line);}
+  .vcard.fit-yes{border-left-color:var(--accept);}
+  .vcard.fit-cond{border-left-color:var(--cond);}
+  .vcard.fit-no{opacity:0.6;}
   .vcard-head{display:flex; align-items:flex-start; justify-content:space-between; gap:8px;}
   .vcard-head h3{font-size:16.5px; margin:0; color:var(--ink); line-height:1.25;}
-  .status-pill{font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:3px 8px; border-radius:20px; font-weight:700; flex-shrink:0;}
+  .badge-row{display:flex; gap:5px; flex-shrink:0; flex-wrap:wrap; justify-content:flex-end;}
+  .status-pill{font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; padding:3px 8px; border-radius:20px; font-weight:700;}
   .status-active{background:var(--accept-bg); color:var(--accept);}
   .status-paused{background:var(--cond-bg); color:var(--cond);}
   .status-inactive{background:var(--reject-bg); color:var(--reject);}
+  .fit-pill{font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.05em; padding:3px 9px; border-radius:20px; font-weight:700; text-transform:uppercase;}
+  .fit-pill.fit-yes{background:var(--accept-bg); color:var(--accept);}
+  .fit-pill.fit-cond{background:var(--cond-bg); color:var(--cond);}
+  .fit-pill.fit-no{background:var(--reject-bg); color:var(--reject);}
+  .fit-reason{font-size:11.5px; color:var(--ink-soft); margin-top:-4px;}
+  .uqc-note{font-size:11px; font-weight:600; color:#8B5FBF; background:var(--special-bg); border-radius:6px; padding:5px 8px; line-height:1.4;}
+
   .meta-row{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.8px; color:var(--ink-soft);}
   .meta-row span b{color:var(--ink); font-weight:600;}
   .tagwrap{display:flex; flex-wrap:wrap; gap:5px; max-height:98px; overflow:hidden; position:relative; transition:max-height .2s ease;}
   .tagwrap.expanded{max-height:2000px;}
-  .chip{font-size:11px; padding:3.5px 9px; border-radius:20px; font-weight:600; cursor:pointer; border:1px solid transparent; user-select:none; transition:transform .08s ease;}
-  .chip:active{transform:scale(0.96);}
+  .chip{font-size:11px; padding:3.5px 9px; border-radius:20px; font-weight:600; border:1px solid transparent; user-select:none;}
   .chip.accept{background:var(--accept-bg); color:var(--accept);}
   .chip.reject{background:var(--reject-bg); color:var(--reject);}
   .chip.conditional{background:var(--cond-bg); color:var(--cond);}
   .chip.special{background:var(--special-bg); color:var(--special);}
   .expand-toggle{font-size:11px; color:var(--forest-3); font-weight:600; cursor:pointer; align-self:flex-start;}
+
   details.vdetails{border-top:1px dashed var(--line); padding-top:8px; margin-top:2px;}
   details.vdetails summary{font-size:11.5px; font-weight:600; color:var(--forest-3); cursor:pointer; list-style:none;}
   details.vdetails summary::-webkit-details-marker{display:none;}
@@ -136,56 +140,100 @@
   .detail-item{margin-top:8px; font-size:12px; line-height:1.55; color:var(--ink-soft);}
   .detail-item b{display:block; color:var(--ink); font-size:11px; text-transform:uppercase; letter-spacing:.04em; font-family:'IBM Plex Mono',monospace; margin-bottom:2px;}
   .detail-item + .detail-item{margin-top:10px;}
-  .empty-cat{background:var(--paper); border:1px dashed var(--line); border-radius:13px; padding:40px 30px; text-align:center; color:var(--ink-soft); font-size:13px;}
+
+  .empty-cat{background:var(--paper); border:1px dashed var(--line); border-radius:13px; padding:40px 30px; text-align:center; color:var(--ink-soft); font-size:13px; grid-column:1/-1;}
   .empty-cat b{color:var(--forest); display:block; font-family:'Fraunces',serif; font-size:16px; margin-bottom:6px;}
+
   .toast{position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--forest); color:#fff; padding:11px 18px; border-radius:10px; font-size:12.8px; box-shadow:0 10px 30px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:all .25s ease; display:flex; align-items:center; gap:10px; z-index:50; max-width:440px;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .toast .dot{width:7px; height:7px; border-radius:50%; background:var(--lime); flex-shrink:0;}
-  .loadstate{padding:80px 20px; text-align:center; color:var(--ink-soft);}
+
+  .loadstate{padding:80px 20px; text-align:center; color:var(--ink-soft); grid-column:1/-1;}
   .loadstate .spin{width:28px; height:28px; border-radius:50%; border:3px solid var(--line); border-top-color:var(--forest); margin:0 auto 14px; animation:spin 0.8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  .err-box{background:#FBE9E7; border:1px solid #EFC1BC; color:#8A2E27; border-radius:12px; padding:18px 20px; font-size:13px; line-height:1.6; max-width:640px; margin:20px auto;}
+  .err-box{background:#FBE9E7; border:1px solid #EFC1BC; color:#8A2E27; border-radius:12px; padding:18px 20px; font-size:13px; line-height:1.6; max-width:640px; grid-column:1/-1;}
   .err-box b{display:block; font-family:'Fraunces',serif; font-size:16px; margin-bottom:6px;}
-  ::-webkit-scrollbar{width:9px; height:9px;} ::-webkit-scrollbar-thumb{background:#D8D3C4; border-radius:20px;}
-  @media (max-width:820px){.sidebar{position:relative; height:auto; width:100%;} .shell{flex-direction:column;} .content, .topbar{padding-left:18px; padding-right:18px;}}
+
+  ::-webkit-scrollbar{width:9px; height:9px;}
+  ::-webkit-scrollbar-thumb{background:#D8D3C4; border-radius:20px;}
+  .filter-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);}
+
+  @media (max-width:900px){
+    .body-layout{flex-direction:column;}
+    .filter-panel{width:100%; height:auto; position:relative; top:0;}
+    .main-content{padding:18px;}
+  }
 </style>
 </head>
 <body>
-<div class="shell">
-  <aside class="sidebar">
+
+<div class="topbar-wrap">
+  <div class="topbar-inner">
     <div class="brand">
       <div class="mark">SF</div>
       <div><div class="name">ICP Command Center</div><div class="sub">Client Fulfillment</div></div>
     </div>
-    <div class="nav-label">Categories</div>
-    <ul class="cat-list" id="catList"></ul>
+    <div class="cat-tabs" id="catTabs"></div>
+  </div>
+</div>
+
+<div class="body-layout">
+  <aside class="filter-panel">
+    <div class="filter-block">
+      <input class="side-search" id="searchInput" type="text" placeholder="Search vendor name or industry…">
+    </div>
+    <div class="filter-block">
+      <div class="filter-label">Status</div>
+      <div class="status-pills" id="statusToggle">
+        <div class="status-pill-btn on" data-status="all">All</div>
+        <div class="status-pill-btn" data-status="Active">Active</div>
+        <div class="status-pill-btn" data-status="Paused">Paused</div>
+        <div class="status-pill-btn" data-status="Inactive">Inactive</div>
+      </div>
+    </div>
+
+    <details class="filter-group" open>
+      <summary>Industries <span class="count-badge" id="industryCountBadge"></span></summary>
+      <div id="ms-industry-search-wrap"></div>
+    </details>
+    <div class="ms-chips" id="ms-industry-chips" style="margin:0 0 12px;"></div>
+
+    <details class="filter-group">
+      <summary>Features <span class="count-badge" id="featureCountBadge"></span></summary>
+      <div id="ms-feature-search-wrap"></div>
+    </details>
+    <div class="ms-chips" id="ms-feature-chips" style="margin:0 0 12px;"></div>
+
+    <div class="filter-block" style="border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
+      <div class="filter-label">Employee count</div>
+      <input class="emp-input" id="chkEmp" type="number" placeholder="e.g. 150" min="0">
+    </div>
+
+    <details class="filter-group">
+      <summary>Geography <span class="count-badge" id="geoCountBadge"></span></summary>
+      <div id="ms-geo-search-wrap"></div>
+    </details>
+
+    <button class="clear-filters-btn" id="clearFiltersBtn">Clear all filters</button>
+
     <div class="side-foot"><b>Live source —</b> reading directly from your Google Sheet. Edit ICPs there; refresh here to see changes.</div>
     <button class="side-refresh" id="refreshBtn">↻ Refresh data</button>
     <div class="side-updated" id="lastUpdated"></div>
   </aside>
-  <div class="main">
-    <div class="topbar">
-      <h1 id="catTitle">Loading…</h1>
-      <div class="desc" id="catDesc">Connecting to your Google Sheet…</div>
-      <div class="searchrow">
-        <div class="search-box">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5B6B69" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input id="searchInput" type="text" placeholder="Search vendor name or industry…">
-        </div>
-        <div class="pill-toggle" id="statusToggle">
-          <button data-status="all" class="on">All</button>
-          <button data-status="Active">Active</button>
-          <button data-status="Paused">Paused</button>
-          <button data-status="Inactive">Inactive</button>
-        </div>
-      </div>
+
+  <main class="main-content">
+    <div class="content-head">
+      <div><h1 id="catTitle">Loading…</h1><div class="desc" id="catDesc">Connecting to your Google Sheet…</div></div>
+      <span class="count" id="gridCount"></span>
     </div>
-    <div class="content" id="contentArea">
+    <div class="vgrid" id="contentArea">
       <div class="loadstate"><div class="spin"></div>Loading your live ICP data…</div>
     </div>
-  </div>
+  </main>
 </div>
+
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
+
 <script>
 const SPREADSHEET_ID = '1Ck-uQW0Ix6XHZ3sTPT8uKm2QG1pkecTxT33HY1KXJig';
 const API_KEY = 'AIzaSyB92m87JF8T_Wd-lGNF8RhULp_1Kz2HvlY';
@@ -194,13 +242,11 @@ const COUNTRIES = ["Afghanistan", "Albania", "Algeria", "American Samoa", "Andor
 const GEO_ALIASES = {"United States": ["USA", "US", "U.S.", "U.S.A.", "America", "US only", "United States of America"], "United Kingdom": ["UK", "U.K.", "Britain", "England", "Great Britain"], "United Arab Emirates": ["UAE", "U.A.E."], "Korea, Republic of": ["South Korea", "Korea"], "Russian Federation": ["Russia"], "Viet Nam": ["Vietnam"], "Czechia": ["Czech Republic"], "Iran, Islamic Republic of": ["Iran"], "Venezuela, Bolivarian Republic of": ["Venezuela"], "Bolivia, Plurinational State of": ["Bolivia"], "Tanzania, United Republic of": ["Tanzania"], "Netherlands": ["Holland"], "Lao People's Democratic Republic": ["Laos"], "Syrian Arab Republic": ["Syria"], "Moldova, Republic of": ["Moldova"], "Micronesia, Federated States of": ["Micronesia"], "Congo, The Democratic Republic of the": ["DR Congo", "DRC"]};
 const FEATURE_LISTS = {"Medical": [{"label": "EMR", "synonyms": ["emr", "electronic medical record"]}, {"label": "EHR", "synonyms": ["ehr", "electronic health record"]}, {"label": "Practice Management (PM)", "synonyms": ["practice management", "pm "]}, {"label": "Revenue Cycle Management (RCM)", "synonyms": ["rcm", "revenue cycle"]}, {"label": "Telehealth", "synonyms": ["telehealth"]}, {"label": "Patient Scheduling", "synonyms": ["patient scheduling"]}, {"label": "Patient Portal", "synonyms": ["patient portal"]}, {"label": "Medical Billing", "synonyms": ["medical billing"]}], "CRM": [{"label": "Sales Pipeline Management", "synonyms": ["sales pipeline management"]}, {"label": "Marketing Automation", "synonyms": ["marketing automation"]}, {"label": "Lead Scoring", "synonyms": ["lead scoring"]}, {"label": "Email Marketing", "synonyms": ["email marketing"]}, {"label": "Contact Management", "synonyms": ["contact management"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}, {"label": "Workflow Automation", "synonyms": ["workflow automation"]}], "ERP": [{"label": "Financial Management", "synonyms": ["financial management"]}, {"label": "Inventory Management", "synonyms": ["inventory management"]}, {"label": "Supply Chain Management", "synonyms": ["supply chain management"]}, {"label": "Manufacturing", "synonyms": ["manufacturing"]}, {"label": "Procurement", "synonyms": ["procurement"]}, {"label": "Order Management", "synonyms": ["order management"]}], "LMS": [{"label": "Course Authoring", "synonyms": ["course authoring"]}, {"label": "Certification Tracking", "synonyms": ["certification tracking"]}, {"label": "Compliance Training", "synonyms": ["compliance training"]}, {"label": "Gamification", "synonyms": ["gamification"]}, {"label": "Mobile Learning", "synonyms": ["mobile learning"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}], "HR": [{"label": "HRIS", "synonyms": ["hris", "human resource information system"]}, {"label": "HCM", "synonyms": ["hcm", "human capital management"]}, {"label": "Payroll", "synonyms": ["payroll"]}, {"label": "Benefits Administration", "synonyms": ["benefits administration"]}, {"label": "Time & Attendance", "synonyms": ["time & attendance"]}, {"label": "Applicant Tracking (ATS)", "synonyms": ["ats", "applicant tracking"]}, {"label": "Performance Management", "synonyms": ["performance management"]}, {"label": "Onboarding", "synonyms": ["onboarding"]}], "CMMS": [{"label": "Preventive Maintenance", "synonyms": ["preventive maintenance"]}, {"label": "Work Order Management", "synonyms": ["work order management"]}, {"label": "Asset Tracking", "synonyms": ["asset tracking"]}, {"label": "Inventory/Parts Management", "synonyms": ["inventory/parts management"]}, {"label": "Inspection Management", "synonyms": ["inspection management"]}], "Legal Practice Management": [{"label": "Case Management", "synonyms": ["case management"]}, {"label": "Time & Billing", "synonyms": ["time & billing"]}, {"label": "Document Management", "synonyms": ["document management"]}, {"label": "Client Intake", "synonyms": ["client intake"]}, {"label": "Trust Accounting", "synonyms": ["trust accounting"]}], "Point of Sale": [{"label": "Inventory Management", "synonyms": ["inventory management"]}, {"label": "Payment Processing", "synonyms": ["payment processing"]}, {"label": "Customer Loyalty", "synonyms": ["customer loyalty"]}, {"label": "Multi-location Support", "synonyms": ["multi-location support"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}], "Project Management": [{"label": "Task Management", "synonyms": ["task management"]}, {"label": "Gantt Charts", "synonyms": ["gantt charts"]}, {"label": "Resource Management", "synonyms": ["resource management"]}, {"label": "Time Tracking", "synonyms": ["time tracking"]}, {"label": "Team Collaboration", "synonyms": ["team collaboration"]}, {"label": "Reporting & Analytics", "synonyms": ["reporting & analytics"]}], "Field Service Management": [{"label": "Scheduling & Dispatch", "synonyms": ["scheduling & dispatch"]}, {"label": "Work Order Management", "synonyms": ["work order management"]}, {"label": "GPS Tracking", "synonyms": ["gps tracking"]}, {"label": "Inventory Management", "synonyms": ["inventory management"]}, {"label": "Invoicing", "synonyms": ["invoicing"]}], "Property Management": [{"label": "Tenant & Lease Management", "synonyms": ["tenant & lease management"]}, {"label": "Maintenance Requests", "synonyms": ["maintenance requests"]}, {"label": "Accounting", "synonyms": ["accounting"]}, {"label": "Online Payments", "synonyms": ["online payments"]}, {"label": "Vacancy Marketing", "synonyms": ["vacancy marketing"]}], "Environmental Health & Safety": [{"label": "Incident Management", "synonyms": ["incident management"]}, {"label": "Compliance Tracking", "synonyms": ["compliance tracking"]}, {"label": "Audit Management", "synonyms": ["audit management"]}, {"label": "Training Management", "synonyms": ["training management"]}, {"label": "Risk Assessment", "synonyms": ["risk assessment"]}], "Construction Management": [{"label": "Project Scheduling", "synonyms": ["project scheduling"]}, {"label": "Budgeting & Cost Control", "synonyms": ["budgeting & cost control"]}, {"label": "Document Management", "synonyms": ["document management"]}, {"label": "Bid Management", "synonyms": ["bid management"]}, {"label": "Subcontractor Management", "synonyms": ["subcontractor management"]}]};
 
-
 let DATA = {};
 let state = { category: null, statusFilter: 'all', search: '' };
 
 function buildUrl(){
   const ranges = CATEGORIES.map(c => 'ranges=' + encodeURIComponent(c)).join('&');
-  // cache-bust: browsers/CDNs can otherwise serve a stale cached response for this exact URL
   return `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values:batchGet?${ranges}&key=${API_KEY}&_=${Date.now()}`;
 }
 
@@ -280,181 +326,12 @@ async function loadData(){
 
 function catCount(cat){ return (DATA[cat] || []).length; }
 
-function renderSidebar(){
-  const list = document.getElementById('catList');
-  list.innerHTML = '';
-  CATEGORIES.forEach(cat=>{
-    const has = DATA[cat] && DATA[cat].length;
-    const li = document.createElement('li');
-    li.className = 'cat-item' + (cat===state.category?' active':'') + (has?'':' disabled');
-    li.style.opacity = has ? 1 : 0.4;
-    li.innerHTML = `<span>${cat}</span><span class="cnt">${has ? catCount(cat) : '—'}</span>`;
-    li.onclick = ()=>{ state.category = cat; state.search=''; document.getElementById('searchInput').value=''; render(); };
-    list.appendChild(li);
-  });
-}
-
-function statusClass(s){
-  const l = (s||'').toLowerCase();
-  if(l==='paused') return 'status-paused';
-  if(l==='inactive') return 'status-inactive';
-  return 'status-active';
-}
-
 function showToast(msg){
   const t = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
   t.classList.add('show');
   clearTimeout(window.__toastT);
   window.__toastT = setTimeout(()=> t.classList.remove('show'), 3200);
-}
-
-const msState = { industry: new Set(), feature: new Set() };
-const msQuery = { industry: '', feature: '', geo: '' };
-let geoState = '';
-
-function getIndustryOptions(){
-  const cat = DATA[state.category] || [];
-  const names = new Set();
-  cat.forEach(v => v.tags.forEach(t => names.add(t.name)));
-  return [...names].sort();
-}
-function getFeatureOptionLabels(){
-  const cat = DATA[state.category] || [];
-  if(state.category === 'Medical'){
-    const labels = new Set();
-    cat.forEach(v => (v.medicalCombos || []).forEach(combo => labels.add(comboLabel(combo))));
-    return [...labels].sort();
-  }
-  if(state.category === 'HR'){
-    const tokens = new Set();
-    cat.forEach(v => {
-      if(v.hrMandatory) tokens.add(v.hrMandatory);
-      (v.hrOptional || []).forEach(f => tokens.add(f));
-    });
-    return [...tokens].sort();
-  }
-  const list = FEATURE_LISTS[state.category] || [];
-  return list.map(f => f.label);
-}
-
-function toggleMsPanel(kind){
-  const panel = document.getElementById(`ms-${kind}-panel`);
-  const isOpen = panel.classList.contains('open');
-  document.querySelectorAll('.ms-panel.open').forEach(p => p.classList.remove('open'));
-  if(!isOpen) panel.classList.add('open');
-}
-document.addEventListener('click', (e)=> {
-  if(e.target.closest('.ms')) return;
-  document.querySelectorAll('.ms-panel.open').forEach(p => p.classList.remove('open'));
-});
-
-function renderMultiSelect(kind){
-  const panel = document.getElementById(`ms-${kind}-panel`);
-  if(!panel) return;
-  msQuery[kind] = '';
-  panel.innerHTML = `<input type="text" class="ms-search" id="ms-${kind}-search" placeholder="Search…" autocomplete="off">
-    <div class="ms-options" id="ms-${kind}-options"></div>`;
-  document.getElementById(`ms-${kind}-search`).addEventListener('input', (e)=>{
-    msQuery[kind] = e.target.value.toLowerCase();
-    renderOptionsList(kind);
-  });
-  renderOptionsList(kind);
-  renderChips(kind);
-}
-
-function renderOptionsList(kind){
-  const allOptions = kind === 'industry' ? getIndustryOptions() : getFeatureOptionLabels();
-  const q = msQuery[kind] || '';
-  const options = q ? allOptions.filter(o => o.toLowerCase().includes(q)) : allOptions;
-  const selected = msState[kind];
-  const container = document.getElementById(`ms-${kind}-options`);
-  if(!container) return;
-  container.innerHTML = options.length ? options.map(opt => {
-    const safe = opt.replace(/"/g,'&quot;');
-    return `<label class="ms-option"><input type="checkbox" value="${safe}" ${selected.has(opt)?'checked':''} data-kind="${kind}"><span>${opt}</span></label>`;
-  }).join('') : `<div class="ms-empty">${q ? 'No matches' : `No ${kind==='industry'?'industries':'standard features'} for this category`}</div>`;
-  container.querySelectorAll('input[type=checkbox]').forEach(cb=>{
-    cb.addEventListener('change', (e)=>{
-      const val = e.target.value;
-      if(e.target.checked) msState[kind].add(val); else msState[kind].delete(val);
-      renderChips(kind);
-    });
-  });
-}
-
-function renderChips(kind){
-  const selected = [...msState[kind]];
-  const chipsEl = document.getElementById(`ms-${kind}-chips`);
-  const toggleBtn = document.getElementById(`ms-${kind}-toggle`);
-  if(toggleBtn) toggleBtn.querySelector('.ms-label').textContent = selected.length
-    ? `${selected.length} ${kind === 'industry' ? 'industr' + (selected.length>1?'ies':'y') : 'feature'+(selected.length>1?'s':'')} selected`
-    : (kind === 'industry' ? 'Select industries' : 'Select features');
-  if(!chipsEl) return;
-  chipsEl.innerHTML = selected.map(v => {
-    const safe = v.replace(/"/g,'&quot;');
-    return `<span class="ms-chip">${v}<button type="button" class="ms-chip-x" data-kind="${kind}" data-val="${safe}">×</button></span>`;
-  }).join('');
-  chipsEl.querySelectorAll('.ms-chip-x').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const k = e.target.getAttribute('data-kind'), val = e.target.getAttribute('data-val');
-      msState[k].delete(val);
-      renderOptionsList(k);
-      renderChips(k);
-    });
-  });
-}
-
-function renderGrid(){
-  const cat = DATA[state.category] || [];
-  const grid = document.getElementById('vgrid');
-  if(!grid) return;
-  const q = state.search.trim().toLowerCase();
-  let filtered = cat.filter(v=>{
-    if(state.statusFilter !== 'all' && v.status !== state.statusFilter) return false;
-    if(!q) return true;
-    if(v.name.toLowerCase().includes(q)) return true;
-    return v.tags.some(t=>t.name.toLowerCase().includes(q));
-  });
-  document.getElementById('gridTitle').textContent = state.category + ' vendors';
-  document.getElementById('gridCount').textContent = filtered.length + ' of ' + cat.length;
-
-  if(filtered.length === 0){
-    grid.innerHTML = `<div class="empty-cat" style="grid-column:1/-1;"><b>No matches</b>Try a different search term or status filter.</div>`;
-    return;
-  }
-  grid.innerHTML = filtered.map((v, idx)=>{
-    const employeeKey = Object.keys(v.details).find(k => /emp count|employee|provider|user/i.test(k));
-    const locKey = Object.keys(v.details).find(k => /geograph|location/i.test(k));
-    const metaBits = [];
-    if(employeeKey) metaBits.push(`<span><b>${v.details[employeeKey]}</b></span>`);
-    if(locKey) metaBits.push(`<span>${v.details[locKey]}</span>`);
-    const chips = v.tags.map((t,i)=>`<span class="chip ${t.status}" data-vendor="${v.name.replace(/"/g,'')}" data-tag="${t.name.replace(/"/g,'')}" title="${t.note ? t.note.replace(/"/g,'') : t.name}">${t.name}</span>`).join('');
-    const detailEntries = Object.entries(v.details).filter(([k])=> k!==employeeKey && k!==locKey);
-    const detailsHtml = detailEntries.length ? `<details class="vdetails"><summary>Notes &amp; requirements (${detailEntries.length})</summary>${detailEntries.map(([k,val])=>`<div class="detail-item"><b>${k}</b>${(val||'').toString().replace(/</g,'&lt;')}</div>`).join('')}</details>` : '';
-    return `<div class="vcard">
-      <div class="vcard-head"><h3>${v.name}</h3><span class="status-pill ${statusClass(v.status)}">${v.status}</span></div>
-      ${metaBits.length ? `<div class="meta-row">${metaBits.join('')}</div>` : ''}
-      <div class="tagwrap" id="tw-${idx}">${chips}</div>
-      ${v.tags.length > 20 ? `<span class="expand-toggle" data-idx="${idx}">Show all ${v.tags.length} →</span>` : ''}
-      ${detailsHtml}
-    </div>`;
-  }).join('');
-
-  grid.querySelectorAll('.chip').forEach(chip=>{
-    chip.addEventListener('click', (e)=>{
-      const vendor = e.target.getAttribute('data-vendor');
-      const tag = e.target.getAttribute('data-tag');
-      showToast(`This is live data from your Google Sheet. To change "${tag}" for ${vendor}, edit their Accepted Industry cells in the Sheet — it'll show up here after you hit Refresh.`);
-    });
-  });
-  grid.querySelectorAll('.expand-toggle').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const idx = e.target.getAttribute('data-idx');
-      document.getElementById('tw-'+idx).classList.add('expanded');
-      e.target.style.display = 'none';
-    });
-  });
 }
 
 function parseEmpFloor(text){
@@ -523,70 +400,110 @@ function featuresMatch(v, selectedFeatures){
   return { ok: fails.length === 0, fails, excluded: false };
 }
 
-function runCheck(){
-  const selectedIndustries = [...msState.industry];
-  const selectedFeatures = [...msState.feature];
-  const empInput = document.getElementById('chkEmp').value.trim();
-  const empNum = empInput ? parseInt(empInput, 10) : null;
-  const geoCountry = geoState;
-  const box = document.getElementById('chkResults');
-  if(selectedIndustries.length === 0){ box.innerHTML = `<div class="hint">Select at least one industry to check against every vendor in ${state.category}.</div>`; return; }
-  const cat = (DATA[state.category] || []).filter(v => v.status === 'Active');
-  const rows = cat.map(v=>{
-    const { ok: indOk, fails: indFails } = industriesMatch(v, selectedIndustries);
-    const { ok: featOk, fails: featFails, excluded: featExcluded } = featuresMatch(v, selectedFeatures);
-    if(featExcluded) return null;
+/* ---------- Multi-select (Industry / Feature) ---------- */
+const msState = { industry: new Set(), feature: new Set() };
+const msQuery = { industry: '', feature: '', geo: '' };
+let geoState = '';
 
-    const locKey = Object.keys(v.details).find(k => /geograph|location/i.test(k));
-    const locVal = locKey ? v.details[locKey] : '';
-    const { ok: geoOk, note: geoNote } = geoMatches(locVal, geoCountry);
-
-    const empKey = Object.keys(v.details).find(k => /emp count|employee|provider|user/i.test(k));
-    const empFloor = empKey ? parseEmpFloor(v.details[empKey]) : null;
-    let empOk = true, empNote = null;
-    if(empNum !== null){
-      if(empFloor === null){ empOk = true; empNote = 'employee count unclear — verify manually'; }
-      else if(empNum < empFloor){ empOk = false; empNote = `below vendor's minimum (${v.details[empKey]})`; }
-    }
-
-    let fit = 'no', label = 'No match found';
-    if(!indOk){
-      fit = 'no';
-      label = `Doesn't accept: ${indFails.join(', ')}`;
-    } else {
-      const hardFails = !geoOk || !empOk || !featOk;
-      const featIssue = featFails.length ? `Doesn't match feature: ${featFails.join(', ')}` : null;
-      const issues = [geoNote, empNote, featIssue].filter(Boolean);
-      if(hardFails){ fit = 'no'; label = issues.join('; '); }
-      else if(issues.length){ fit = 'cond'; label = issues.join('; '); }
-      else { fit = 'yes'; label = 'Fits ICP'; }
-    }
-    return {v, fit, label};
-  }).filter(Boolean).sort((a,b)=>{ const order={yes:0,cond:1,no:2}; return order[a.fit]-order[b.fit]; });
-
-  if(!rows.some(r => r.fit === 'yes')){
-    box.innerHTML = `<div class="hint">No vendor matches all of these.</div>`;
-    return;
+function getIndustryOptions(){
+  const cat = DATA[state.category] || [];
+  const names = new Set();
+  cat.forEach(v => v.tags.forEach(t => names.add(t.name)));
+  return [...names].sort();
+}
+function getFeatureOptionLabels(){
+  const cat = DATA[state.category] || [];
+  if(state.category === 'Medical'){
+    const labels = new Set();
+    cat.forEach(v => (v.medicalCombos || []).forEach(combo => labels.add(comboLabel(combo))));
+    return [...labels].sort();
   }
-  box.innerHTML = rows.map(r=>`
-    <div class="result-row">
-      <span class="badge-fit fit-${r.fit==='yes'?'yes':r.fit==='cond'?'cond':'no'}">${r.fit==='yes'?'Fit':r.fit==='cond'?'Check':'No fit'}</span>
-      <span class="rv">${r.v.name}${r.v.uqc ? `<span class="rv-note">⚠ ${r.v.uqc}</span>` : ''}</span>
-      <span class="rd">${r.label}${r.v.status!=='Active' ? ' · '+r.v.status : ''}</span>
-    </div>`).join('');
+  if(state.category === 'HR'){
+    const tokens = new Set();
+    cat.forEach(v => {
+      if(v.hrMandatory) tokens.add(v.hrMandatory);
+      (v.hrOptional || []).forEach(f => tokens.add(f));
+    });
+    return [...tokens].sort();
+  }
+  const list = FEATURE_LISTS[state.category] || [];
+  return list.map(f => f.label);
+}
+
+function renderMultiSelect(kind){
+  const wrap = document.getElementById(`ms-${kind}-search-wrap`);
+  if(!wrap) return;
+  msQuery[kind] = '';
+  wrap.innerHTML = `<input type="text" class="ms-search" id="ms-${kind}-search" placeholder="Search…" autocomplete="off">
+    <div class="ms-options" id="ms-${kind}-options"></div>`;
+  document.getElementById(`ms-${kind}-search`).addEventListener('input', (e)=>{
+    msQuery[kind] = e.target.value.toLowerCase();
+    renderOptionsList(kind);
+  });
+  renderOptionsList(kind);
+  renderChips(kind);
+}
+
+function renderOptionsList(kind){
+  const allOptions = kind === 'industry' ? getIndustryOptions() : getFeatureOptionLabels();
+  const q = msQuery[kind] || '';
+  const options = q ? allOptions.filter(o => o.toLowerCase().includes(q)) : allOptions;
+  const selected = msState[kind];
+  const container = document.getElementById(`ms-${kind}-options`);
+  if(!container) return;
+  container.innerHTML = options.length ? options.map(opt => {
+    const safe = opt.replace(/"/g,'&quot;');
+    return `<label class="ms-option"><input type="checkbox" value="${safe}" ${selected.has(opt)?'checked':''} data-kind="${kind}"><span>${opt}</span></label>`;
+  }).join('') : `<div class="ms-empty">${q ? 'No matches' : `No ${kind==='industry'?'industries':'standard features'} for this category`}</div>`;
+  container.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', (e)=>{
+      const val = e.target.value;
+      if(e.target.checked) msState[kind].add(val); else msState[kind].delete(val);
+      renderChips(kind);
+      renderGrid();
+    });
+  });
+}
+
+function renderChips(kind){
+  const selected = [...msState[kind]];
+  const chipsEl = document.getElementById(`ms-${kind}-chips`);
+  const badge = document.getElementById(`${kind}CountBadge`);
+  if(badge) badge.textContent = selected.length ? `(${selected.length})` : '';
+  if(!chipsEl) return;
+  chipsEl.innerHTML = selected.map(v => {
+    const safe = v.replace(/"/g,'&quot;');
+    return `<span class="ms-chip">${v}<button type="button" class="ms-chip-x" data-kind="${kind}" data-val="${safe}">×</button></span>`;
+  }).join('');
+  chipsEl.querySelectorAll('.ms-chip-x').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const k = e.target.getAttribute('data-kind'), val = e.target.getAttribute('data-val');
+      msState[k].delete(val);
+      renderOptionsList(k);
+      renderChips(k);
+      renderGrid();
+    });
+  });
 }
 
 function renderGeoDropdown(){
-  const panel = document.getElementById('ms-geo-panel');
-  if(!panel) return;
+  const wrap = document.getElementById('ms-geo-search-wrap');
+  if(!wrap) return;
   msQuery.geo = '';
-  panel.innerHTML = `<input type="text" class="ms-search" id="ms-geo-search" placeholder="Search country…" autocomplete="off">
+  geoState = '';
+  wrap.innerHTML = `<input type="text" class="ms-search" id="ms-geo-search" placeholder="Search country…" autocomplete="off">
     <div class="ms-options" id="ms-geo-options"></div>`;
   document.getElementById('ms-geo-search').addEventListener('input', (e)=>{
     msQuery.geo = e.target.value.toLowerCase();
     renderGeoOptionsList();
   });
   renderGeoOptionsList();
+  updateGeoBadge();
+}
+
+function updateGeoBadge(){
+  const badge = document.getElementById('geoCountBadge');
+  if(badge) badge.textContent = geoState ? `(${geoState})` : '';
 }
 
 function renderGeoOptionsList(){
@@ -604,76 +521,196 @@ function renderGeoOptionsList(){
   container.querySelectorAll('.ms-option-single').forEach(el=>{
     el.addEventListener('click', ()=>{
       geoState = el.getAttribute('data-val');
-      document.getElementById('ms-geo-toggle').querySelector('.ms-label').textContent = geoState || 'Any geography';
-      document.querySelectorAll('.ms-panel.open').forEach(p => p.classList.remove('open'));
+      renderGeoOptionsList();
+      updateGeoBadge();
+      renderGrid();
     });
   });
 }
 
-function renderContent(){
-  document.getElementById('contentArea').innerHTML = `
-    <div class="checker">
-      <div class="checker-head"><span class="tag">Quick check</span></div>
-      <h2>Does this lead fit anyone's ICP?</h2>
-      <p class="sub">Pick one or more industries and features, employee count and geography an SDR is qualifying against. Selecting multiple industries or features finds vendors that accept ALL of them, not just any one.</p>
-      <div class="checker-grid">
-        <div class="ms" id="ms-industry">
-          <button type="button" class="ms-toggle" id="ms-industry-toggle"><span class="ms-label">Select industries</span><span class="ms-caret">▾</span></button>
-          <div class="ms-panel" id="ms-industry-panel"></div>
-        </div>
-        <div class="ms" id="ms-feature">
-          <button type="button" class="ms-toggle" id="ms-feature-toggle"><span class="ms-label">Select features</span><span class="ms-caret">▾</span></button>
-          <div class="ms-panel" id="ms-feature-panel"></div>
-        </div>
-        <input id="chkEmp" type="number" placeholder="Employee count, e.g. 150" min="0">
-        <div class="ms" id="ms-geo">
-          <button type="button" class="ms-toggle" id="ms-geo-toggle"><span class="ms-label">Any geography</span><span class="ms-caret">▾</span></button>
-          <div class="ms-panel" id="ms-geo-panel"></div>
-        </div>
-        <button class="go-btn" id="chkBtn">Check fit</button>
+/* ---------- Live fit evaluation ---------- */
+function hasActiveFilters(){
+  const empEl = document.getElementById('chkEmp');
+  const empVal = empEl ? empEl.value.trim() : '';
+  return msState.industry.size > 0 || msState.feature.size > 0 || empVal !== '' || !!geoState;
+}
+
+function evaluateFit(v){
+  const selectedIndustries = [...msState.industry];
+  const selectedFeatures = [...msState.feature];
+  const empEl = document.getElementById('chkEmp');
+  const empVal = empEl ? empEl.value.trim() : '';
+  const empNum = empVal ? parseInt(empVal, 10) : null;
+  const geoCountry = geoState;
+
+  if(v.status !== 'Active'){
+    return { fit: 'no', label: `${v.status} — not currently taking leads` };
+  }
+
+  const { ok: indOk, fails: indFails } = industriesMatch(v, selectedIndustries);
+  const { ok: featOk, fails: featFails, excluded: featExcluded } = featuresMatch(v, selectedFeatures);
+
+  const locKey = Object.keys(v.details).find(k => /geograph|location/i.test(k));
+  const locVal = locKey ? v.details[locKey] : '';
+  const { ok: geoOk, note: geoNote } = geoMatches(locVal, geoCountry);
+
+  const empKey = Object.keys(v.details).find(k => /emp count|employee|provider|user/i.test(k));
+  const empFloor = empKey ? parseEmpFloor(v.details[empKey]) : null;
+  let empOk = true, empNote = null;
+  if(empNum !== null){
+    if(empFloor === null){ empOk = true; empNote = 'employee count unclear — verify manually'; }
+    else if(empNum < empFloor){ empOk = false; empNote = `below vendor's minimum (${v.details[empKey]})`; }
+  }
+
+  if(featExcluded) return { fit: 'no', label: 'No feature data on file for this vendor' };
+  if(!indOk) return { fit: 'no', label: `Doesn't accept: ${indFails.join(', ')}` };
+
+  const hardFails = !geoOk || !empOk || !featOk;
+  const featIssue = featFails.length ? `Doesn't match feature: ${featFails.join(', ')}` : null;
+  const issues = [geoNote, empNote, featIssue].filter(Boolean);
+  if(hardFails) return { fit: 'no', label: issues.join('; ') };
+  if(issues.length) return { fit: 'cond', label: issues.join('; ') };
+  return { fit: 'yes', label: 'Fits ICP' };
+}
+
+/* ---------- Rendering ---------- */
+function renderCategoryTabs(){
+  const wrap = document.getElementById('catTabs');
+  wrap.innerHTML = '';
+  CATEGORIES.forEach(cat=>{
+    const has = DATA[cat] && DATA[cat].length;
+    const el = document.createElement('div');
+    el.className = 'cat-tab' + (cat===state.category?' active':'');
+    el.style.opacity = has ? 1 : 0.4;
+    el.innerHTML = `<span>${cat}</span><span class="cnt">${has ? catCount(cat) : '—'}</span>`;
+    el.onclick = ()=>{ state.category = cat; state.search=''; document.getElementById('searchInput').value=''; render(); };
+    wrap.appendChild(el);
+  });
+}
+
+function statusClass(s){
+  const l = (s||'').toLowerCase();
+  if(l==='paused') return 'status-paused';
+  if(l==='inactive') return 'status-inactive';
+  return 'status-active';
+}
+
+function renderGrid(){
+  const cat = DATA[state.category] || [];
+  const grid = document.getElementById('contentArea');
+  if(!grid) return;
+  const q = state.search.trim().toLowerCase();
+  const filtersActive = hasActiveFilters();
+
+  let filtered = cat.filter(v=>{
+    if(state.statusFilter !== 'all' && v.status !== state.statusFilter) return false;
+    if(!q) return true;
+    if(v.name.toLowerCase().includes(q)) return true;
+    return v.tags.some(t=>t.name.toLowerCase().includes(q));
+  });
+
+  let withFit = filtered.map(v => ({ v, fitInfo: filtersActive ? evaluateFit(v) : null }));
+
+  if(filtersActive){
+    const order = { yes: 0, cond: 1, no: 2 };
+    withFit.sort((a,b)=> order[a.fitInfo.fit] - order[b.fitInfo.fit]);
+  }
+
+  document.getElementById('catTitle').textContent = state.category;
+  document.getElementById('catDesc').textContent = `Vendor ICPs for ${state.category} — live from your Google Sheet.`;
+  document.getElementById('gridCount').textContent = withFit.length + ' of ' + cat.length;
+
+  if(cat.length === 0){
+    grid.innerHTML = `<div class="empty-cat"><b>${state.category} not connected yet</b>Check that this tab exists in your Google Sheet with the expected columns.</div>`;
+    return;
+  }
+  if(withFit.length === 0){
+    grid.innerHTML = `<div class="empty-cat"><b>No matches</b>Try different filters or clear them to browse everyone.</div>`;
+    return;
+  }
+
+  grid.innerHTML = withFit.map(({v, fitInfo}, idx)=>{
+    const employeeKey = Object.keys(v.details).find(k => /emp count|employee|provider|user/i.test(k));
+    const locKey = Object.keys(v.details).find(k => /geograph|location/i.test(k));
+    const metaBits = [];
+    if(employeeKey) metaBits.push(`<span><b>${v.details[employeeKey]}</b></span>`);
+    if(locKey) metaBits.push(`<span>${v.details[locKey]}</span>`);
+    const chips = v.tags.map((t,i)=>`<span class="chip ${t.status}" data-vendor="${v.name.replace(/"/g,'')}" data-tag="${t.name.replace(/"/g,'')}" title="${t.note ? t.note.replace(/"/g,'') : t.name}">${t.name}</span>`).join('');
+    const detailEntries = Object.entries(v.details).filter(([k])=> k!==employeeKey && k!==locKey);
+    const detailsHtml = detailEntries.length ? `<details class="vdetails"><summary>Notes &amp; requirements (${detailEntries.length})</summary>${detailEntries.map(([k,val])=>`<div class="detail-item"><b>${k}</b>${(val||'').toString().replace(/</g,'&lt;')}</div>`).join('')}</details>` : '';
+
+    const cardClass = fitInfo ? `vcard has-fit fit-${fitInfo.fit}` : 'vcard';
+    const fitPill = fitInfo ? `<span class="fit-pill fit-${fitInfo.fit}">${fitInfo.fit==='yes'?'Fit':fitInfo.fit==='cond'?'Check':'No fit'}</span>` : '';
+    const fitReason = fitInfo && fitInfo.fit !== 'yes' ? `<div class="fit-reason">${fitInfo.label}</div>` : '';
+
+    return `<div class="${cardClass}">
+      <div class="vcard-head">
+        <h3>${v.name}</h3>
+        <div class="badge-row">${fitPill}<span class="status-pill ${statusClass(v.status)}">${v.status}</span></div>
       </div>
-      <div class="ms-chips" id="ms-industry-chips"></div>
-      <div class="ms-chips" id="ms-feature-chips"></div>
-      <div class="check-results" id="chkResults"></div>
-    </div>
-    <div class="section-title"><h2 id="gridTitle">Vendors</h2><span class="count" id="gridCount"></span></div>
-    <div class="vgrid" id="vgrid"></div>
-  `;
-  document.getElementById('chkBtn').addEventListener('click', runCheck);
-  msState.industry = new Set();
-  msState.feature = new Set();
-  geoState = '';
-  renderMultiSelect('industry');
-  renderMultiSelect('feature');
-  renderGeoDropdown();
-  document.getElementById('ms-industry-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('industry'); });
-  document.getElementById('ms-feature-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('feature'); });
-  document.getElementById('ms-geo-toggle').addEventListener('click', (e)=>{ e.stopPropagation(); toggleMsPanel('geo'); });
+      ${v.uqc ? `<div class="uqc-note">⚠ ${v.uqc}</div>` : ''}
+      ${fitReason}
+      ${metaBits.length ? `<div class="meta-row">${metaBits.join('')}</div>` : ''}
+      <div class="tagwrap" id="tw-${idx}">${chips}</div>
+      ${v.tags.length > 20 ? `<span class="expand-toggle" data-idx="${idx}">Show all ${v.tags.length} →</span>` : ''}
+      ${detailsHtml}
+    </div>`;
+  }).join('');
+
+  grid.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', (e)=>{
+      const vendor = e.target.getAttribute('data-vendor');
+      const tag = e.target.getAttribute('data-tag');
+      showToast(`This is live data from your Google Sheet. To change "${tag}" for ${vendor}, edit the Sheet — it'll show up here after you hit Refresh.`);
+    });
+  });
+  grid.querySelectorAll('.expand-toggle').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const idx = e.target.getAttribute('data-idx');
+      document.getElementById('tw-'+idx).classList.add('expanded');
+      e.target.style.display = 'none';
+    });
+  });
 }
 
 function render(){
   if(!state.category) return;
-  document.getElementById('catTitle').textContent = state.category;
-  document.getElementById('catDesc').textContent = `Vendor ICPs for ${state.category} — live from your Google Sheet.`;
-  renderSidebar();
-  renderContent();
+  renderCategoryTabs();
+  msState.industry = new Set();
+  msState.feature = new Set();
+  document.getElementById('chkEmp').value = '';
+  renderMultiSelect('industry');
+  renderMultiSelect('feature');
+  renderGeoDropdown();
   renderGrid();
 }
 
-document.addEventListener('click', (e)=>{
-  if(e.target.id === 'searchInput'){ /* handled below */ }
-});
-document.addEventListener('input', (e)=>{
-  if(e.target.id === 'searchInput'){ state.search = e.target.value; renderGrid(); }
-});
+document.getElementById('searchInput').addEventListener('input', (e)=>{ state.search = e.target.value; renderGrid(); });
 document.getElementById('statusToggle').addEventListener('click', (e)=>{
-  if(e.target.tagName !== 'BUTTON') return;
+  const btn = e.target.closest('.status-pill-btn');
+  if(!btn) return;
   [...e.currentTarget.children].forEach(b=>b.classList.remove('on'));
-  e.target.classList.add('on');
-  state.statusFilter = e.target.getAttribute('data-status');
+  btn.classList.add('on');
+  state.statusFilter = btn.getAttribute('data-status');
   renderGrid();
 });
+document.getElementById('chkEmp').addEventListener('input', renderGrid);
 document.getElementById('refreshBtn').addEventListener('click', loadData);
+document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
+  msState.industry = new Set();
+  msState.feature = new Set();
+  geoState = '';
+  document.getElementById('chkEmp').value = '';
+  state.search = '';
+  state.statusFilter = 'all';
+  document.getElementById('searchInput').value = '';
+  [...document.getElementById('statusToggle').children].forEach(b=>b.classList.remove('on'));
+  document.querySelector('.status-pill-btn[data-status="all"]').classList.add('on');
+  renderMultiSelect('industry');
+  renderMultiSelect('feature');
+  renderGeoDropdown();
+  renderGrid();
+});
 
 loadData();
 </script>
