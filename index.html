@@ -26,12 +26,6 @@
   .brand .mark{width:32px; height:32px; border-radius:8px; background:var(--lime); display:flex; align-items:center; justify-content:center; color:var(--forest); font-family:'Fraunces',serif; font-weight:700; font-size:16px;}
   .brand .name{font-family:'Fraunces',serif; font-size:16px; font-weight:600; color:#fff; line-height:1.15;}
   .brand .sub{font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.06em; color:#93B0AC; text-transform:uppercase;}
-  .cat-tabs{display:flex; gap:6px; overflow-x:auto; flex:1; scrollbar-width:thin;}
-  .cat-tabs::-webkit-scrollbar{height:6px;}
-  .cat-tab{flex-shrink:0; white-space:nowrap; display:flex; align-items:center; gap:7px; padding:8px 14px; border-radius:20px; cursor:pointer; font-size:12.8px; color:#C9DDD9; background:rgba(255,255,255,0.05); border:1px solid transparent; transition:background .12s ease, color .12s ease;}
-  .cat-tab:hover{background:rgba(255,255,255,0.1); color:#fff;}
-  .cat-tab.active{background:var(--lime); color:var(--forest); font-weight:700;}
-  .cat-tab .cnt{font-family:'IBM Plex Mono',monospace; font-size:10.5px; opacity:.75;}
 
   /* ---------- Body layout: filter panel + main content ---------- */
   .body-layout{display:flex; align-items:flex-start;}
@@ -175,7 +169,6 @@
       <div class="mark">SF</div>
       <div><div class="name">ICP Command Center</div><div class="sub">Client Fulfillment</div></div>
     </div>
-    <div class="cat-tabs" id="catTabs"></div>
   </div>
 </div>
 
@@ -580,19 +573,7 @@ function evaluateFit(v){
 }
 
 /* ---------- Rendering ---------- */
-function renderCategoryTabs(){
-  const wrap = document.getElementById('catTabs');
-  wrap.innerHTML = '';
-  CATEGORIES.forEach(cat=>{
-    const has = DATA[cat] && DATA[cat].length;
-    const el = document.createElement('div');
-    el.className = 'cat-tab' + (cat===state.category?' active':'');
-    el.style.opacity = has ? 1 : 0.4;
-    el.innerHTML = `<span>${cat}</span><span class="cnt">${has ? catCount(cat) : '—'}</span>`;
-    el.onclick = ()=>{ state.category = cat; state.search=''; document.getElementById('searchInput').value=''; render(); };
-    wrap.appendChild(el);
-  });
-
+function renderCategorySelect(){
   const select = document.getElementById('categorySelect');
   select.innerHTML = CATEGORIES.map(cat=>{
     const has = DATA[cat] && DATA[cat].length;
@@ -688,7 +669,7 @@ function renderGrid(){
 
 function render(){
   if(!state.category) return;
-  renderCategoryTabs();
+  renderCategorySelect();
   msState.industry = new Set();
   msState.feature = new Set();
   document.getElementById('chkEmp').value = '';
